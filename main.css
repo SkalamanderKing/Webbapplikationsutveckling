@@ -17,7 +17,9 @@ footer .row {
  //align-items: center;
 }
 
-header h1 {
+h1 {
+font-family: "Arial Black", Gadget, sans-serif;
+font-size: 70%;
 font-weight: 200;
   margin: 0;
 }
