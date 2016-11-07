@@ -14,9 +14,7 @@ var start;
 //Poäng räknare
 var f =0;
 var r=0;
-var w1=true;
-var w2=true;
-var w3=true;
+
 
 /*"spelloopen", en loop pågår till spelaren avslutar*/
 function spelloop() {
