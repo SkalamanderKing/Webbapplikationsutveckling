@@ -121,3 +121,12 @@ footer li img {
 	font-size: 50px;
 	}
 }
+/* navbar */
+.navbar-inverse {
+    background-color:#0066CC;
+    border-color: #000000;
+}
+/* title */
+.navbar-inverse .navbar-brand {
+    color: #FFFFFF;
+}
