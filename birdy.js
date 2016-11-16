@@ -16,7 +16,7 @@ let c = undefined;
 
 //Composite variabels, objects, for positions the sprites on canvas area
 let spritePosition = {x : 0, y : 0};
-let spritePosition2 = {x : 200, y : 200};
+let spritePosition2 = {x : -9999, y : -9999};
 let spriteSheetPosition = {x : 0, y : 0};
 let ballPos={x : 240, y : 200};
 
