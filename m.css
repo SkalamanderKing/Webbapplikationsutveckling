@@ -1,0 +1,39 @@
+html, head { 
+margin: -100; 
+padding: -100;
+background-color:lightblue;
+
+}
+
+body {
+
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+}
+
+header {
+  padding: 20px 0;
+
+
+}
+
+.col-md-6 {
+
+}
+
+.container{
+
+}
+
+.row {
+background-color:lightblue;
+
+}
+.col-md-3 col-md-offset-3{
+background-color:lightblue;
+}
+
+.jumbotron {
+background-color:lightblue;
+}
