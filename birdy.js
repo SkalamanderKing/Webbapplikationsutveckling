@@ -48,6 +48,20 @@ var Keyboard = { keyDown : -1 };
 
 var Keys = {ENTER: 13,};
 
+var Mouse = {
+	position: {x:0, y:0},
+	leftDown: false
+};
+function handleMouseDown(evt){
+	if(evt.which===1)
+		Mouse.leftDown=true;
+};
+function handleMouseUp(evt){
+	if(evt.which===1)
+		Mouse.leftDown=false;
+};
+
+
 //Load stuff
 start = function () {
 	
@@ -65,7 +79,9 @@ speedOfBallon=0.1;
 	ball.src = "spr_balloon.png";
 
 	document.onkeydown = handleKeyDown;
-	document.onkeyup = handleKeyUp; 
+	document.onkeyup = handleKeyUp;
+	document.onmousedown = handleMouseDown;
+	document.onmouseup = handleMouseUp;
 
 	//load in a timespan
 	window.setTimeout(mainLoop, 500);
@@ -100,7 +116,7 @@ mainLoop = function() {
 
 //Used for updating the gameword
 update = function () {
-	knapp();
+	playerAction();
 	var d = new Date();
 	ballPos.x = d.getTime() * speedOfBallon % canvas.width;
 	
@@ -123,7 +139,7 @@ update = function () {
 };
 
 
-knapp = function () {
+playerAction = function () {
 
 	
    if (Keyboard.keyDown === Keys.ENTER)
@@ -132,6 +148,13 @@ knapp = function () {
 	spriteSheetPosition.y =900;
 	spriteSheetPosition.x=0;
 	}
+	if (Mouse.leftDown)
+	{
+	posOnSpriteSheet=ANI_BIRDY_TALK;
+	spriteSheetPosition.y =900;
+	spriteSheetPosition.x=0;
+	}
+
 
 /*   else if (Keyboard.keyDown === Keys.E)
  {
