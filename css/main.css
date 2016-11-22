@@ -3,3 +3,9 @@ margin: 0;
 padding: 0;
 background-color:#87CEFA;
 }
+
+/*Change the initial black navbar */
+.navbar-inverse {
+    background-color:#0066CC;
+    border-color: #000000;
+}
