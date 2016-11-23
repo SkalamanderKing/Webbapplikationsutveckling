@@ -48,7 +48,52 @@ h2 {
 	border-color: #3f48cc;
 }
 */
+.close {
+   color:white !important;
+    	margin: 15px;
+	font-size: 45px;
+}
 
+  .modal-header{
+      background-color: #3f48cc;
+	height: 60px;
+ 	padding: 0px;
+   	 margin: 0px;
+    
+  }
+  .modal-footer {
+      background-color: lightblue;
+  }
+
+h3 {
+  color:white !important;
+  font-size: 25px;
+  text-align: center;
+}
+
+
+/***********************
+  OUTLINE BUTTONS
+************************/
+/*
+.btn.outline {
+    background: none;
+    //padding: 12px 22px;
+}
+.btn-primary.outline {
+    border: 2px solid #0099cc;
+    color: #0099cc;
+}
+.btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
+    color: #33a6cc;
+    border-color: #33a6cc;
+}
+.btn-primary.outline:active, .btn-primary.outline.active {
+    border-color: #007299;
+    color: #007299;
+    box-shadow: none;
+}
+*/
 /*media queries, the size of the text changes depending of screen*/
 @media only screen and (max-width: 700px) {
     body {
