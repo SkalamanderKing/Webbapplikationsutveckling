@@ -71,6 +71,23 @@ h3 {
   text-align: center;
 }
 
+	.mqtx {
+		font-size: 20px;
+}
+.img-responsive {
+    border-radius: 1px;
+    background-color: #ABCDEF;
+   transition: background-color 0.5s ease;
+   // display:inline;
+  //  font-size:25px;
+   padding:14px;
+    margin-top:10px;
+	 border:1px solid #ccc;
+}
+
+.active {
+    background-color:#556677;
+}
 
 /***********************
   OUTLINE BUTTONS
@@ -99,7 +116,9 @@ h3 {
     body {
       //  background-color:lightblue;
     }
-
+	.mqtx {
+		font-size: 15px;
+}
 .jumbotron h1 {
 	font-size: 50px;
 	}
@@ -108,4 +127,27 @@ h3 {
 .jumbotron h1 {
 	font-size: 40px;
 	}
+		.mqtx {
+		font-size: 15px;
 }
+.img-responsive {
+	padding:6px;
+    margin-top:4px;
+}
+
+
+}
+@media only screen and (max-width: 300px) {
+.jumbotron h1 {
+	font-size: 30px;
+	}
+		.mqtx {
+		font-size: 10px;
+}
+.img-responsive {
+	padding:0px;
+    margin-top:0px;
+}
+
+}
+
