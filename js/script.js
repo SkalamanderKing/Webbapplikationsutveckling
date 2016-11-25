@@ -45,10 +45,10 @@ $('.img-responsive').hover(
 var $path;
 $(document).ready(function(){
 	
-	 $path = window.location.pathname;
+	 $path = window.location.href;
 	 //var $p=$(location).attr('pathname');
 	//if($path=='/C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html')
-		if($path=='rr.html')
+		if($path=='https://skalamanderking.github.io/rr.html')
 	$('.jumbotron').css('background-image', 'none');
 	
 	});
