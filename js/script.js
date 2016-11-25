@@ -23,6 +23,7 @@ $(document).ready(function(){
   $('.img-responsive').hover(
     function(){
      $(this).addClass('active');
+	 
     },
     function(){
     $(this).removeClass('active');
@@ -31,3 +32,13 @@ $(document).ready(function(){
 
 });
 
+$(document).ready(function(){
+$('.img-responsive').hover(
+   function() {
+         $(this).children('.img-responsive').fadeTo('slow', 0.5);
+  },
+   function() {
+         $(this).children('.img-responsive').fadeTo('slow', 1);
+  }
+);
+});

@@ -83,10 +83,12 @@ h3 {
    padding:14px;
     margin-top:10px;
 	 border:1px solid #ccc;
+
 }
 
 .active {
     background-color:#556677;
+	opacity: 0.4;
 }
 
 /***********************
