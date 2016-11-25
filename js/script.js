@@ -52,18 +52,18 @@ $(document).ready(function(){
 	
 	});
 	
-	$(document).ready(function(){
-		$( "#open" ).click(function() {
+	// $(document).ready(function(){
+		// $( "#open" ).click(function() {
   //alert( "Handler for .click() called." );
  // $( "#open" ).load( "file:///C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html", function() {
-	 $( "#open" ).load( 'https://skalamanderking.github.io/rr.html', function() {  
+	 // $( "#open" ).load( 'https://skalamanderking.github.io/rr.html', function() {  
   //alert( "Load was performed." );
   //window.location.href = "file:///C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html";
 // window.open('file:///C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html', 'newwindow', 'width=400', 'height=400');
-  window.open('https://skalamanderking.github.io/rr.html', 'newwindow', 'width=400', 'height=400');
-});
+  // window.open('https://skalamanderking.github.io/rr.html', 'newwindow', 'width=400', 'height=400');
+// });
 
-});
-});
+// });
+// });
 	
 	
