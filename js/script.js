@@ -42,13 +42,26 @@ $('.img-responsive').hover(
   }
 );
 });
-var $path;
+	
 $(document).ready(function(){
 	
-	 $path = window.location.href;
-	 //var $p=$(location).attr('pathname');
+ var $path = window.location.href;
 	//if($path=='/C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html')
-		if($path=='https://skalamanderking.github.io/rr.html')
+		if($path=='https://skalamanderking.github.io/rr.html' || $path=='file:///C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html')
 	$('.jumbotron').css('background-image', 'none');
 	
 	});
+	
+	$(document).ready(function(){
+		$( "#open" ).click(function() {
+  //alert( "Handler for .click() called." );
+  $( "#open" ).load( "file:///C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html", function() {
+  //alert( "Load was performed." );
+  //window.location.href = "file:///C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html";
+ window.open('file:///C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html', 'newwindow', 'width=400', 'height=400');
+});
+
+});
+});
+	
+	
