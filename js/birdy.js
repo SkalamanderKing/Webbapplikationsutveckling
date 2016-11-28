@@ -55,8 +55,8 @@ let birdyIsAlive=false;
 let mouseTrue=true;
 
 
-var randomNumber = Math.floor((Math.random() * 6) + 1);
-//var randomNumber=2;
+//var randomNumber = Math.floor((Math.random() * 6) + 1);
+var randomNumber=5;
 var death=6;
 
 //if Player has started the game this one becomes true
@@ -100,18 +100,20 @@ var Keyboard = { keyDown : -1 };
 
 var Keys = {ENTER: 13,};
 
-// var Mouse = {
-	// position: {x:0, y:0},
-	// leftDown: false
-// };
-// function handleMouseDown(evt){
-	// if(evt.which===1)
-		// Mouse.leftDown=true;
-// };
-// function handleMouseUp(evt){
-	// if(evt.which===1)
-		// Mouse.leftDown=false;
-// };
+var Mouse = {
+	position: {x:0, y:0},
+	leftDown: false
+};
+function handleMouseDown(evt){
+	if(evt.which===1)
+		Mouse.leftDown=true;
+};
+function handleMouseUp(evt){
+	if(evt.which===1)
+		Mouse.leftDown=false;
+};
+
+
 
 
 
@@ -138,8 +140,8 @@ start = function () {
 
 	document.onkeydown = handleKeyDown;
 	document.onkeyup = handleKeyUp;
-	// document.onmousedown = handleMouseDown;
-	// document.onmouseup = handleMouseUp;
+	document.onmousedown = handleMouseDown;
+	document.onmouseup = handleMouseUp;
 speedOfBallon=0.1;
 	//load in a timespan
 	window.setTimeout(mainLoop, 500);
@@ -166,7 +168,7 @@ drawImage = function (sprite, position) {
 
 playerAction = function () {
 	if(!enterDisabled){
-		if(Keyboard.keyDown === Keys.ENTER )
+		if(Keyboard.keyDown === Keys.ENTER)
 		{
 			myButt.disabled = true;
 			gameState = true;
@@ -187,6 +189,7 @@ mainLoop = function() {
 };
 	clicked = function ()
 		{
+			document.getElementById("myButt").style.visibility = "hidden";
 			if(playersTurn)
 			{
 				if(randomNumber===death){
@@ -204,6 +207,7 @@ mainLoop = function() {
 			}
 			else if(gameOver){location.reload(true);}
 		else{
+		
 			animation1=false;
 			myButt.disabled = true;
 			enterDisabled=true;
@@ -303,6 +307,9 @@ update = function () {
 			myButt.disabled = false;
 			enterDisabled=false;
 			playersTurn=true;
+			document.getElementById("myButt").style.visibility = "visible";
+			document.getElementById("myButt").style.background='red';
+			document.getElementById("myButt").innerHTML="FIRE!";
 		}
 			//player survived
 			else if (animation8)
@@ -323,6 +330,7 @@ update = function () {
 			spriteSheetPosition.y=7500;//
 			posOnSpriteSheet= 7500;
 			animation9=false;
+			document.body.style.backgroundColor = "black"; 
 			tid= setTimeout(function(){animation10=true;}, 2000);
 		}
 	
@@ -336,8 +344,13 @@ update = function () {
 			spriteSheetPosition.y=8400;
 			spriteSheetPosition.x=0;
 			
-			
+		document.body.style.backgroundColor = "red"; 
+	
+	
 			tid= setTimeout(function(){enterDisabled=false; myButt.disabled = false; gameOver=true;
+			document.getElementById("myButt").style.visibility = "visible";
+			document.getElementById("myButt").innerHTML="New Game?";
+			document.getElementById("myButt").style.background='blue';
 			}, 2000);
 		}
 	}

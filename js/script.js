@@ -47,11 +47,23 @@ $(document).ready(function(){
 	
  var $path = window.location.href;
 	//if($path=='/C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html')
-		if($path=='https://skalamanderking.github.io/rr.html' || $path=='file:///C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html')
+		if($path=='https://skalamanderking.github.io/rr.html' || $path=='file:///C:/Users/F/Documents/GitHub/SkalamanderKing.github.io/rr.html'){
 	$('.jumbotron').css('background-image', 'none');
-	
+	$( "nav" ).detach();
+		}
 	});
 	
+	$(document).ready(function(){
+		if(isMobile)
+	$( "p" ).after( "<a href='index.html'>Home</a>" );
+
+		});
+		$(document).ready(function(){
+	function isMobile() {
+  try{ document.createEvent("TouchEvent"); return true; }
+  catch(e){ return false; }
+}
+	});
 	// $(document).ready(function(){
 		// $( "#open" ).click(function() {
   //alert( "Handler for .click() called." );
