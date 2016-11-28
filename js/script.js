@@ -54,16 +54,17 @@ $(document).ready(function(){
 	});
 	
 	$(document).ready(function(){
-		if(isMobile)
-	$( "p" ).after( "<a href='index.html'>Home</a>" );
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+$( "p" ).after( "<a href='index.html'>Home</a>" );
+}
+	
 
 		});
-		$(document).ready(function(){
-	function isMobile() {
-  try{ document.createEvent("TouchEvent"); return true; }
-  catch(e){ return false; }
-}
-	});
+
+		
+		
+		
+		
 	// $(document).ready(function(){
 		// $( "#open" ).click(function() {
   //alert( "Handler for .click() called." );
