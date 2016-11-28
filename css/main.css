@@ -87,6 +87,13 @@ h3 {
 		font-size: 20px;
 		  color:white !important;
 }
+
+	.cell{
+		font-size: 20px;
+		  color:white !important;
+		  
+}
+
 .img-responsive {
     border-radius: 1px;
     background-color: #ABCDEF;
