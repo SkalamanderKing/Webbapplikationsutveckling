@@ -28,8 +28,8 @@ let numFrames = 12;//30
 let frameSize = {width : 300, height : 300};
 
 //pic out a random number between 1-6, when the number is/reach 6 the bullet is in the chamber and it's game over
-//var randomNumber = Math.floor((Math.random() * 6) + 1);
-var randomNumber=6;
+var randomNumber = Math.floor((Math.random() * 6) + 1);
+//var randomNumber=6;
 
 //This constant works with the randomNumber: if they are equal it's game over regardless if its the player or the NPC turn
 const DEATH_NUMBER_NUMBER=6;
