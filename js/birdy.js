@@ -5,9 +5,6 @@
 //Global sprites and spritSheets
 let backgroundSprite = undefined;
 let spriteSheet = undefined;
-let ball=undefined;
-
-var speedOfBallon=undefined;
 
 //empty graphic zone
 let canvas=undefined;
@@ -15,19 +12,11 @@ let canvas=undefined;
 //object of interface 2D rendering contex for canvas to draw within
 let c = undefined;
 
-
-//let spritePosition = {x : 0, y : 0};
-
-//Composite variabel (objects) for positions the sprites on canvas area
+//Composite variabel (objects) for positions the sprites on canvas area (increment value on spritesheet)
 let spriteSheetPosition = undefined; //{x : 0, y : 0};
 
-//Ball
-let ballPos={x : 240, y : 200};
-
+//this value use the spriteSheetPosition.y's first value on a new animation. Necessary since the y pos is changning in the anim-function
 let posOnSpriteSheet=0;
-
-var t=true;
-var q=true;
 
 //variabe for animation to controll when  total number of frames i higher (the spritesheet is end)
 let index=0; 
@@ -38,39 +27,28 @@ let numFrames = 12;//30
 //variabe for animation, The size of a frame in a spritesheet
 let frameSize = {width : 300, height : 300};
 
-const ANI_START_MENU=0;
-const ANI_BIRDY_TALK=900;
-const ANI_BIRDYS_SHOT=1800;
-const ANI_BIRDY_ALIVE=2700;
-const ANI_BIRDY_DEAD=3600;
-const ANI_PLAYER_SHOT=4500;
-const ANI_IN_WAIT=5400;
-const ANI_PLAYER_SURVIVED=6300;
-const ANI_PLAYER_DEAD=7200;
-const ANI_GAME_OVER=8100;
-
+//This state is used when it's game over and the game (the site) has to be reloaded
 let gameOver=false;
+
+//
 let birdyIsAlive=false;
 
-let mouseTrue=true;
+//pic out a random number between 1-6, when the number is/reach 6 the bullet is in the chamber and it's game over
+var randomNumber = Math.floor((Math.random() * 6) + 1);
+//var randomNumber=5;
 
+//This constant works with the randomNumber: if they are equal it's game over regardless if its the player or the NPC turn
+const DEATH_NUMBER_NUMBER=6;
 
-//var randomNumber = Math.floor((Math.random() * 6) + 1);
-var randomNumber=5;
-var death=6;
-
-//if Player has started the game this one becomes true
+//if Player has started the game this one becomes true and trigger a new animation and game event
 var gameState=false;
 
+//When this become true some diffrent events starts
 let playersTurn=false;
 
-// var no1_Ani_initial_pos_set=false;
-// var no2_Ani_initial_pos_set=false;
-// var no3_Ani_initial_pos_set=false;
-
+//used to controll the time a animation is showed
 var tid=undefined;
 
-var enterDisabled=true;
 
 var animation1=true;
 var animation2=false;
@@ -83,66 +61,16 @@ var animation8=false;
 var animation9=false;
 var animation10=false;
 
-
-var state1_start=true;
-var state2_talk=false;
-var state3_birdy_shot=false;
-
-function handleKeyDown(evt) {
-    Keyboard.keyDown = evt.keyCode;
-}
-
-function handleKeyUp(evt) {
-    Keyboard.keyDown = -1;
-}
-
-var Keyboard = { keyDown : -1 };
-
-var Keys = {ENTER: 13,};
-
-var Mouse = {
-	position: {x:0, y:0},
-	leftDown: false
-};
-function handleMouseDown(evt){
-	if(evt.which===1)
-		Mouse.leftDown=true;
-};
-function handleMouseUp(evt){
-	if(evt.which===1)
-		Mouse.leftDown=false;
-};
-
-
-
-
-
 //Load stuff
 start = function () {
 	
-
 	canvas = document.getElementById("myCanvas");
 	c = canvas.getContext("2d");
-	
 	myButt.disabled = false;
-		enterDisabled=false;
-	
 	spriteSheetPosition = {x : 0, y : 0};
-	
-    	//backgroundSprite = new Image();
-    	//backgroundSprite.src = "game_bg.png";
-		
-		 	spriteSheet = new Image();
+	spriteSheet = new Image();
 	spriteSheet.src = "img/big3.gif";
-
-	ball = new Image();
-	ball.src = "spr_balloon.png";
-
-	document.onkeydown = handleKeyDown;
-	document.onkeyup = handleKeyUp;
-	document.onmousedown = handleMouseDown;
-	document.onmouseup = handleMouseUp;
-speedOfBallon=0.1;
+	
 	//load in a timespan
 	window.setTimeout(mainLoop, 500);
 };
@@ -166,51 +94,39 @@ drawImage = function (sprite, position) {
 	c.restore();
 };
 
-playerAction = function () {
-	if(!enterDisabled){
-		if(Keyboard.keyDown === Keys.ENTER)
-		{
-			myButt.disabled = true;
-			gameState = true;
-			animation2=true;
-			enterDisabled=true;
-			animation1=false;
-		}
-	}
-};
-
 //The game engine main loop
 mainLoop = function() {
 	clearCanvas();
-	playerAction();
 	update();
 	draw();
 	window.setTimeout(mainLoop, 1000 / 6); //60
 };
+	
 	clicked = function ()
 		{
+			//hide the button, 
 			document.getElementById("myButt").style.visibility = "hidden";
 			if(playersTurn)
 			{
-				if(randomNumber===death){
+				if(randomNumber===DEATH_NUMBER_NUMBER){
 					animation9=true; 
 					playersTurn=false;
 					myButt.disabled = true;
-					enterDisabled=true;
+					
 					}
 					else {
 						animation8=true; 
 						playersTurn=false;
 						myButt.disabled = true;
-						enterDisabled=true;
 					}
 			}
-			else if(gameOver){location.reload(true);}
+			else if(gameOver){
+				location.reload(true);
+				}
 		else{
 		
 			animation1=false;
 			myButt.disabled = true;
-			enterDisabled=true;
 			gameState = true;
 			animation2=true;
 			}
@@ -222,7 +138,7 @@ update = function () {
 		
 	if(gameState)
 	{
-		//talk
+		//Birdy talk-animation
 		if(animation2)
 		{
 		//Start the animation from the begining on the part this part of the spritsheet
@@ -231,49 +147,46 @@ update = function () {
 		//prevent animation from frezee
 		animation2=false;
 		
-		//move to position on spritsheet
+		//move to position on spritsheet, the start of the y position of a new animation sequence
 		posOnSpriteSheet= 900;
+		
+		//set y position to start frame
+		spriteSheetPosition.y=900;
 		
 		//set x to 0, the first frame of part of spritesheet
 		spriteSheetPosition.x=0;
 		
-		//set y position to start frame
-		spriteSheetPosition.y=900;
-		//enterDisabled=true;
-		
 		//play the animation for 2 seconds before change
 		tid= setTimeout(function(){animation3=true; }, 2000);
-	//	clearTimeout(tid);
+
 		}
+		
 		//birdys pre-shot screen
 		else if (animation3)
 		{
-				index =0;
-			//clearTimeout(tid);
+			index =0;
 			animation3=false;
 			posOnSpriteSheet= 1800;
 			spriteSheetPosition.y=1800;
 			spriteSheetPosition.x=0;
 			
-			tid= setTimeout(function(){if(randomNumber!=death){animation4=true;} else {animation5=true; }}, 2000);
+			tid= setTimeout(function(){if(randomNumber!=DEATH_NUMBER_NUMBER){animation4=true;} else {animation5=true; }}, 2000);
 	
 		}
-				//alive
+		
+		//Birdy survived
 		else if (animation4)
 		{
-				index =0;
-			//clearTimeout(tid);
 			index =0;
 			animation4=false;
-			posOnSpriteSheet= 2700; //2700
+			posOnSpriteSheet= 2700;
 			spriteSheetPosition.y=2700;
 			spriteSheetPosition.x=0;
 			randomNumber=randomNumber+1;
-	
 			tid= setTimeout(function(){animation6=true}, 2000);
 		}
 	
-		//death of Birdy
+		//DEATH_NUMBER_NUMBER of Birdy
 		else if (animation5)
 		{
 			//Start the animation from the begining on the part this part of the spritsheet
@@ -305,7 +218,7 @@ update = function () {
 			posOnSpriteSheet= 5400;
 			animation7=false;
 			myButt.disabled = false;
-			enterDisabled=false;
+			//enterDisabled=false;
 			playersTurn=true;
 			document.getElementById("myButt").style.visibility = "visible";
 			document.getElementById("myButt").style.background='red';
@@ -345,9 +258,9 @@ update = function () {
 			spriteSheetPosition.x=0;
 			
 		document.body.style.backgroundColor = "red"; 
+	//enterDisabled=false;
 	
-	
-			tid= setTimeout(function(){enterDisabled=false; myButt.disabled = false; gameOver=true;
+			tid= setTimeout(function(){ myButt.disabled = false; gameOver=true;
 			document.getElementById("myButt").style.visibility = "visible";
 			document.getElementById("myButt").innerHTML="Play again?";
 			document.getElementById("myButt").style.background='blue';
@@ -355,53 +268,7 @@ update = function () {
 		}
 	}
 		
-	// playerAction();
-	// if(state1_start)
-	// {
-		// posOnSpriteSheet= 0;
-	// }
-	// else if(gameState)
-	// {
-		// frameSize.y =1800;
-		 // posOnSpriteSheet= 900;
 	
-			// if(t)
-			// {
-			// spriteSheetPosition.x=0; t=false;
-			// }
-			
-		// if(state2_talk)
-		// {
-		// posOnSpriteSheet= 900;
-		// state2_talk=false;
-		
-		// if(spriteSheetPosition.x===900)
-		// state3_birdy_shot=true;
-		// }
-		
-		// if(state3_birdy_shot)
-		// {
-		// posOnSpriteSheet= 1800;
-		// }
-		//else if(state2_talk && spriteSheetPosition.x>=900)
-		//
-	//}
-	// if(spriteSheetPosition.y <=600)
-		
-	// else if(spriteSheetPosition.y >=900 || spriteSheetPosition.y <=1500)
-	// posOnSpriteSheet= 900;
-	
-/* 	
-	if(spriteSheetPosition.y===(ANI_BIRDYS_SHOT-frameSize.width) && spriteSheetPosition.x===900)
-	{
-		posOnSpriteSheet= ANI_BIRDYS_SHOT;
-		 mouseTrue=false;
-	} */
-
-		
-			
-	//	var d = new Date();
-	//ballPos.x = d.getTime() * speedOfBallon % canvas.width;
 };
 
 
