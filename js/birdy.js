@@ -27,12 +27,6 @@ let numFrames = 12;//30
 //variabe for animation, The size of a frame in a spritesheet
 let frameSize = {width : 300, height : 300};
 
-//This state is used when it's game over and the game (the site) has to be reloaded
-let gameOver=false;
-
-//
-let birdyIsAlive=false;
-
 //pic out a random number between 1-6, when the number is/reach 6 the bullet is in the chamber and it's game over
 var randomNumber = Math.floor((Math.random() * 6) + 1);
 //var randomNumber=5;
@@ -49,18 +43,19 @@ let playersTurn=false;
 //used to controll the time a animation is showed
 var tid=undefined;
 
+//This state is used when it's game over and the game (the site) has to be reloaded
+let state0_gameOver=false;
+var state1_intro=false;
+var state2_BirdysTurnScreen=false;
+var state3_BirdySurvived=false;
+var state4_BirdyDies=false;
+var state5_PlayerTurnScreen=false;
+var state6_PlayerIdle=false;
+var state7_PlayerSurvived=false;
+var state8_PlayerDied=false;
+var state9_GameOverScreen=false;
 
-var animation1=true;
-var animation2=false;
-var animation3=false;
-var animation4=false;
-var animation5=false;
-var animation6=false;
-var animation7=false;
-var animation8=false;
-var animation9=false;
-var animation10=false;
-
+var stop=false;
 //Load stuff
 start = function () {
 	
@@ -109,43 +104,58 @@ mainLoop = function() {
 			if(playersTurn)
 			{
 				if(randomNumber===DEATH_NUMBER_NUMBER){
-					animation9=true; 
+					state8_PlayerDied=true; 
 					playersTurn=false;
 					myButt.disabled = true;
 					
 					}
 					else {
-						animation8=true; 
+						state7_PlayerSurvived=true; 
 						playersTurn=false;
 						myButt.disabled = true;
 					}
 			}
-			else if(gameOver){
+			else if(state0_gameOver){
 				location.reload(true);
 				}
 		else{
 		
-			animation1=false;
+			//animation1=false;
 			myButt.disabled = true;
-			gameState = true;
-			animation2=true;
+			//gameState = true;
+			state1_intro=true;
+			update();
 			}
 			
 		}
 		
+		
+changeState = function(state){
+	
+	//Sets the current state to false to prevent the animation to frezee
+	var state=false;
+	
+	//Start the animation from the begining on the part this part of the spritsheet
+	index=0;
+	
+	//set x to 0, the first frame of all parts of the animation sequences
+	spriteSheetPosition.x=0;
+	
+	return state;
+}
+		
 //Used for updating the gameword
 update = function () {
 		
-	if(gameState)
-	{
+	// if(gameState)
+	// {
 		//Birdy talk-animation
-		if(animation2)
+		if(state1_intro)
 		{
-		//Start the animation from the begining on the part this part of the spritsheet
-		index =0;
 		
-		//prevent animation from frezee
-		animation2=false;
+		//Send the current state to this function, which returns false
+		state1_intro=changeState(state1_intro);
+		
 		
 		//move to position on spritsheet, the start of the y position of a new animation sequence
 		posOnSpriteSheet= 900;
@@ -153,134 +163,131 @@ update = function () {
 		//set y position to start frame
 		spriteSheetPosition.y=900;
 		
-		//set x to 0, the first frame of part of spritesheet
-		spriteSheetPosition.x=0;
+	
 		
 		//play the animation for 2 seconds before change
-		tid= setTimeout(function(){animation3=true; }, 2000);
+		tid= setTimeout(function(){state2_BirdysTurnScreen=true; }, 2000);
 
 		}
 		
-		//birdys pre-shot screen
-		else if (animation3)
+		//Birdys pre-shot screen
+		else if (state2_BirdysTurnScreen)
 		{
-			index =0;
-			animation3=false;
+			
+			state2_BirdysTurnScreen=changeState(state2_BirdysTurnScreen);
+			
+			
 			posOnSpriteSheet= 1800;
 			spriteSheetPosition.y=1800;
-			spriteSheetPosition.x=0;
 			
-			tid= setTimeout(function(){if(randomNumber!=DEATH_NUMBER_NUMBER){animation4=true;} else {animation5=true; }}, 2000);
+			
+			tid= setTimeout(function(){if(randomNumber!=DEATH_NUMBER_NUMBER)
+			{state3_BirdySurvived=true;} else {state4_BirdyDies=true; }}, 2000);
 	
 		}
 		
 		//Birdy survived
-		else if (animation4)
+		else if (state3_BirdySurvived)
 		{
-			index =0;
-			animation4=false;
+		
+			state3_BirdySurvived=changeState(state3_BirdySurvived);
 			posOnSpriteSheet= 2700;
 			spriteSheetPosition.y=2700;
-			spriteSheetPosition.x=0;
+	
 			randomNumber=randomNumber+1;
-			tid= setTimeout(function(){animation6=true}, 2000);
+			tid= setTimeout(function(){state5_PlayerTurnScreen=true}, 2000);
 		}
 	
-		//DEATH_NUMBER_NUMBER of Birdy
-		else if (animation5)
+		//Birdy dies
+		else if (state4_BirdyDies)
 		{
-			//Start the animation from the begining on the part this part of the spritsheet
-			index =0;
-			spriteSheetPosition.x=0;
+			
+			state4_BirdyDies=changeState(state4_BirdyDies);
+			
 			spriteSheetPosition.y=3600;//part of spritesheet
 			posOnSpriteSheet= 3600;
-			animation5=false;
-			tid= setTimeout(function(){animation10=true;}, 2000);
+			
+			tid= setTimeout(function(){state9_GameOverScreen=true;}, 2000);
 		
 		}
-			//players turn
-			else if (animation6)
+		//Players pre-shot screen
+			else if (state5_PlayerTurnScreen)
 		{
-			index =0;
-			spriteSheetPosition.x=0;
-			spriteSheetPosition.y=4500;//
+			state5_PlayerTurnScreen=changeState(state5_PlayerTurnScreen);
+			
+			spriteSheetPosition.y=4500;
 			posOnSpriteSheet= 4500;
-			animation6=false;
-		tid= setTimeout(function(){animation7=true;}, 2000);
+			
+			tid= setTimeout(function(){state6_PlayerIdle=true;}, 2000);
 		}
 				
-				//player idle
-				else if (animation7)
+		//Player trun, idle animation
+				else if (state6_PlayerIdle)
 		{
-			index =0;
-			spriteSheetPosition.x=0;
-			spriteSheetPosition.y=5400;//
+			state6_PlayerIdle=changeState(state6_PlayerIdle);
+			spriteSheetPosition.y=5400;
 			posOnSpriteSheet= 5400;
-			animation7=false;
+		
 			myButt.disabled = false;
-			//enterDisabled=false;
 			playersTurn=true;
+			
+			//Som changes on the DOM 
 			document.getElementById("myButt").style.visibility = "visible";
 			document.getElementById("myButt").style.background='red';
 			document.getElementById("myButt").innerHTML="FIRE!";
 		}
-			//player survived
-			else if (animation8)
+			//Player survived
+			else if (state7_PlayerSurvived)
 		{
-			index =0;
-			spriteSheetPosition.x=0;
-			spriteSheetPosition.y=6300;//
+			state7_PlayerSurvived=changeState(state7_PlayerSurvived);
+			spriteSheetPosition.y=6300;
 			posOnSpriteSheet= 6300;
-			animation8=false;
-			randomNumber=randomNumber+1;
-			tid= setTimeout(function(){animation3=true;}, 2000);
-		}
-	
-				else if (animation9)
-		{
-			index =0;
-			spriteSheetPosition.x=0;
-			spriteSheetPosition.y=7500;//
-			posOnSpriteSheet= 7500;
-			animation9=false;
-			document.body.style.backgroundColor = "black"; 
-			tid= setTimeout(function(){animation10=true;}, 2000);
-		}
-	
-				//game over
-				else if (animation10)
-		{
-				index =0;
-			//clearTimeout(tid);
-			//animation10=false; //?
-			posOnSpriteSheet= 8400;
-			spriteSheetPosition.y=8400;
-			spriteSheetPosition.x=0;
 			
-		document.body.style.backgroundColor = "red"; 
-	//enterDisabled=false;
+			randomNumber=randomNumber+1;
+			tid= setTimeout(function(){state2_BirdysTurnScreen=true;}, 2000);
+		}
 	
-			tid= setTimeout(function(){ myButt.disabled = false; gameOver=true;
+			//Player died
+			else if (state8_PlayerDied)
+		{
+			state8_PlayerDied=changeState(state8_PlayerDied);
+			spriteSheetPosition.y=7200;//
+			posOnSpriteSheet= 7200;
+			
+			document.body.style.backgroundColor = "black"; 
+			tid= setTimeout(function(){state9_GameOverScreen=true;}, 2000);
+		}
+	
+			//Game over screen, same for NPC and the Player
+			else if (state9_GameOverScreen)
+		{
+			
+			state9_GameOverScreen=changeState(state9_GameOverScreen);
+			document.body.style.backgroundColor = "red"; 
+
+			posOnSpriteSheet= 8100;
+			spriteSheetPosition.y=8100;
+			
+			
+			tid= setTimeout(function(){ myButt.disabled = false; state0_gameOver=true;
 			document.getElementById("myButt").style.visibility = "visible";
-			document.getElementById("myButt").innerHTML="Play again?";
+			document.getElementById("myButt").innerHTML="Restart";
 			document.getElementById("myButt").style.background='blue';
+			stop=true;
 			}, 2000);
 		}
-	}
+	//}
 		
-	
 };
-
-
 
 
 //Calls the appropriate drawfunction: either a animated sprite or not
 draw = function () {
-//	drawImage(backgroundSprite, { x : 0, y : 0 });
-	anim(spriteSheet, { x : 0, y : 0 });
-	//drawImage(ball, ballPos);
-	//drawImage(ball, { x : 80, y : 50 });
+	//This is used when a animation dosen't have to be animated on a spitesheet
+	//drawImage(backgroundSprite, { x : 0, y : 0 });
 	
+	//This is used when a animation has to be animated on a spritsheets. In this case the animation is stationary
+	anim(spriteSheet, { x : 0, y : 0 });
 };
 
 //animates a spriteSheet
@@ -291,7 +298,6 @@ anim = function(spriteSheet, position) {
 
 	//a slightly diffrent use of this method tha above, only a frame on the spritesheet is drawned, not the entire image obj
 	c.drawImage(spriteSheet, spriteSheetPosition.x, spriteSheetPosition.y, frameSize.width, frameSize.height, 0, 0, frameSize.width, frameSize.height);
-	
 	
 	//each time around the frame size is added to spriteSheetPosition.x, moving along the source spritesheet (an image-object)
 	spriteSheetPosition.x += frameSize.width; //900 1:a varv
