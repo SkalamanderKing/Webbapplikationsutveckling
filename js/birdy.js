@@ -349,7 +349,7 @@ update = function () {
 	
 			tid= setTimeout(function(){enterDisabled=false; myButt.disabled = false; gameOver=true;
 			document.getElementById("myButt").style.visibility = "visible";
-			document.getElementById("myButt").innerHTML="New Game?";
+			document.getElementById("myButt").innerHTML="Play again?";
 			document.getElementById("myButt").style.background='blue';
 			}, 2000);
 		}

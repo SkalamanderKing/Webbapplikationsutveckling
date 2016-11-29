@@ -54,12 +54,8 @@ $(document).ready(function(){
 	});
 	
 	$(document).ready(function(){
-if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) 
 $('.cell').append( "<a href='index.html'>Home</a>" );
-
-}
-	
-
 		});
 
 		
