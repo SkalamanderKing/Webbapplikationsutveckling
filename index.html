@@ -3,6 +3,7 @@
 <head>
   <title>Birdy Game</title>
   <meta charset="utf-8">
+  <!--To ensure proper rendering and touch zooming-->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -14,32 +15,31 @@
   <script src="js/script.js"></script>
 </head>
 <body>
-
 <nav class="navbar navbar-inverse">
+<!--spanning the entire width of the viewport-->
   <div class="container-fluid">
     <div class="navbar-header">
+<!--assign control of a collapsible element, data-toggle to tell the JavaScript what to do with the button, data-target indicates which element to toggle-->
        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bar">
-     <span class="icon-bar"></span>
+     <!--creates 'hamburger' icon-->
+	 <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                    
-      </button>   
-        <!-- <a class="navbar-brand" href="https://skalamanderking.github.io/"><h1>BIRDY GAMES</h1></a>-->
+        <span class="icon-bar"></span>                   
+      </button> 
     </div>
-
+	<!--nedded for responsive bootstrap-->
     <div class="collapse navbar-collapse" id="bar">
+	<!--right align nav bar on a row-->
       <ul class="nav navbar-nav navbar-right">
-       <!-- <li class="active"><a href="https://skalamanderking.github.io/">Home</a></li>-->
 	<li><a href="games.html">Games</a></li>
         <li><a href="#">About </a></li>
 		<li><a href="#" data-toggle="modal" data-target="#myModal">Sign in</a></li>
-		<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Small Modal</button>-->
 		</ul>
 	</div>
   </div>
 </nav>
-
+<!--Conatiner is used to wrap site contents and house grid system, this conatiner for responsive fixed width container.-->
 <div class="container">
-  
 <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
 <div class="modal-dialog modal-sm">
@@ -48,13 +48,15 @@
       <div class="modal-content">
 
         <div class="modal-header" >
+		<!--close button-->
           <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <!--get a pictur-->
           <h3><span class="glyphicon glyphicon-tree-conifer"></span> Login</h3>
         </div>
 
         <div class="modal-body">
           <form>
-
+			<!--validation for success message-->
             <div class="form-group has-success has-feedback">
               <label for="usrname"> Username</label>
               <input type="email" class="form-control" id="usrname" placeholder="Enter email" required>
@@ -91,14 +93,15 @@
 
   <div class="row text-center">
      <h1>WELCOME!</h1>
-		<!--<h2>To Birdys Playground</h2> -->
+
   <img class="birdy" src="img/birdy1.png"  rel="img/birdy2.png" alt="Birdy" width="256" height="320"> 
-    <!-- <a class="btn btn-primary" href="#" role="button">PLAY!</a>-->
+   
 	 <div class="row">
+	 <!--three equal-width columns (tablets), it's scaling on large desktops, on mobile phones the columns will stack-->
   <div class="col-sm-4"></div>
 	<div class="col-sm-4">
 	  
-		<a href="games.html" class="btn btn-danger btn-lg btn-block " role="button" aria-pressed="true">PLAY!</a>
+		<a href="games.html" class="btn btn-danger btn-lg btn-block" role="button" aria-pressed="true">PLAY!</a>
   <div class="col-sm-4"></div>
 		</div>
   </div>
@@ -107,11 +110,10 @@
 </section>
 
 
-
-	  <section class="container">
+<section class="container">
 <div class="row">
-
- <figure class="col-xs-4 col-sm-4">
+<!--Grid made for small device-->
+ <figure class="col-xs-4">
 <p class="mqtx">Birdy</p>
 <img id="bild" src="img/birdy3D.png" class="img-rounded" alt="Birdy2" width="384" height="384">
     </figure>
