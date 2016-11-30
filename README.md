@@ -4,4 +4,4 @@ Author/student: Fredrick Östlund.
 Program: javascript developer - Frontend.
 Course: YHJUST16.
 University: Lernia Utbildning AB.
-LinkedIn: 
+LinkedIn: https://se.linkedin.com/in/fredrick-östlund-6a99a2133
