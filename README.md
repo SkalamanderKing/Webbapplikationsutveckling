@@ -1,4 +1,4 @@
-# SkalamanderKing.github.io
+# H1 SkalamanderKing.github.io
 School project: Javascript, JQuery, html5, css, Bootstrap, DOM.
 Author/student: Fredrick Östlund.
 Program: javascript developer - Frontend.
