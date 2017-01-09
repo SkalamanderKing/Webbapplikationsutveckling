@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>First AJAC jQuery getJSON Demo</title>
+	<title>Test</title>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$("button").click(function() {
-		  var f = "http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?";
-			$.getJSON(f, 
+		 // var f = "http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?";
+			/*$.getJSON(f, 
 				function(json) {
 				
 					$("#hej").append(f.title);
 	
 					
-			});
+			});*/
+			$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?",function(json){
+  console.log(json.title);
+});
 		});
 	});
 	</script>
 </head>
 <body>
-	<button>Ladda blog data</button>
+	<button>Test</button>
 	<div id="blogposts"></div>
 		<div id="hej"></div>
 </body>
