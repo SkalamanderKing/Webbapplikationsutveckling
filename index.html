@@ -1,38 +1,45 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>jQuery.getJSON demo</title>
-  <style>
-  img {
-    height: 100px;
-    float: left;
-  }
-  </style>
-  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<title>First AJAC jQuery getJSON Demo</title>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$("button").click(function() {
+		  var f = "http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?";
+			$.getJSON(f, 
+				function(f) {
+				
+					$("#hej").append(f.title);
+					/*
+					$.each(data.blog_posts, function(i, obj) {
+					
+						var post = "<article>";
+						post += "<h1>" + obj.title + "</h1>";
+						post += "<h2>" + obj.author + "</h2>";
+						post += "<em>" + obj.date + "</em>";
+						post += "<p>" + obj.text + "</p>";
+						post += "<ul>";
+					
+						for(var i in obj.tags)
+						{
+							post += "<li>" + obj.tags[i] + "</li>";
+						}
+						post += "</ul>";
+						post += "</article>";
+						$("#blogposts").append(post);
+				
+					});
+						*/
+					
+			});
+		});
+	});
+	</script>
 </head>
 <body>
- 
-<div id="images"></div>
- 
-<script>
-(function() {
-  var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
-  $.getJSON( flickerAPI, {
-   tags: "house",
-   tagmode: "any",
-    format: "json"
-  })
-    .done(function( data ) {
-      $.each( data.items, function( i, item ) {
-        $( "<img>" ).attr( "src", item.media.m ).appendTo( "#images" );
-        if ( i === 3 ) {
-          return false;
-        }
-      });
-    });
-})();
-</script>
- 
+	<button>Ladda blog data</button>
+	<div id="blogposts"></div>
+		<div id="hej"></div>
 </body>
 </html
