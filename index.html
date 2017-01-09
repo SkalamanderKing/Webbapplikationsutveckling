@@ -1,26 +1,38 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-	<title>Test</title>
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function() {
-		$("button").click(function() {
-		  var f = "http://netflixroulette.net/api/api.php?title=Attack%20on%20titan?callback=?";
-			$.getJSON(f, 
-				function(f) {
-				
-					$("#hej").append(f.unit);
-		
-					
-			});
-		});
-	});
-	</script>
+  <meta charset="utf-8">
+  <title>jQuery.getJSON demo</title>
+  <style>
+  img {
+    height: 100px;
+    float: left;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
-	<button>Test</button>
-	<div id="blogposts"></div>
-		<div id="hej"></div>
+ 
+<div id="images"></div>
+ 
+<script>
+(function() {
+  var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+  $.getJSON( flickerAPI, {
+   tags: "house",
+   tagmode: "any",
+    format: "json"
+  })
+    .done(function( data ) {
+      $.each( data.items, function( i, item ) {
+        $( "<img>" ).attr( "src", item.media.m ).appendTo( "#images" );
+        if ( i === 3 ) {
+          return false;
+        }
+      });
+    });
+})();
+</script>
+ 
 </body>
 </html
