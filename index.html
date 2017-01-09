@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Flickr Demo #1</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<title>Test</title>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$("button").click(function() {
-			$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?", 
-			function(data) {
-				$.each(data.items, function(i, item) {
-					$("div").append("<img src="+
-					item.media.m+">");
-				});
+		  var f = "http://netflixroulette.net/api/api.php?title=Attack%20on%20titan";
+			$.getJSON(f, 
+				function(f) {
+				
+					$("#hej").append(f.unit);
+		
+					
 			});
 		});
 	});
 	</script>
 </head>
 <body>
-	<button>Load photos</button>
-	<div></div>
+	<button>Test</button>
+	<div id="blogposts"></div>
+		<div id="hej"></div>
 </body>
-</html>
+</html
