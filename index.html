@@ -6,11 +6,11 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$("button").click(function() {
-		  var f = "http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?";
+		  var f = "http://mardby.se/AJK15G/blog_json.php";
 			$.getJSON(f, 
 				function(f) {
 				
-					$("#hej").append(f.title);
+					$("#hej").append(f.about);
 		
 					
 			});
