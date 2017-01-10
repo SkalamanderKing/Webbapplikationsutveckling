@@ -14,17 +14,53 @@
 	
 					
 			});*/
-			$.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?",function(json){
-  console.log(json.title);
-  		$("#hej").append(json.title);
+			var post;
+				var tmp;
+				var tmp2;
 	
+		$.getJSON("http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/17.762222/lat/59.1499/data.json"
+		,function(json){
+  
+  
+  $.each(json.timeSeries, function(i, obj) {
+						 post = "<article>";
+						//post += "<h1>" + obj.validTime + "</h1>";
+						//post += "<h1>" + obj.parameters[1].values + "</h1>";
+					 tmp =obj.parameters[1];
+				
+					 		tmp2 = tmp.values.reverse();
+				//  tmp2.reverse();
+					 	/*for(var j in tmp.values)
+						{
+						tmp2 += tmp.values;
+						}*/
+					
+						//post += "<h1>" + tmp.parameters[1].values + "</h1>";
+//  $("#hej").append(json.timeSeries.validTime);
+
+				//	for(i in obj.parameters)
+					//	{
+						//post += "<h1>" + obj.parameters[i] + "</h1>";
+					//post += "<h1>" + obj.parameters[i].values + "</h1>";
+						
+							//$("#hej").append(json.timeSeries.parameters.name);
+						//}
+						//console.log(tmp2);
+							post += "</article>";
+					});
+					$("#blogposts").append("Stockholm: " + tmp2);
+						// console.log(tmp);
+						 // console.log(tmp2);
+						 // document.getElementById("hej").innerHTML = tmp2[0];
+						// console.log(post);
+ 
 });
 		});
 	});
 	</script>
 </head>
 <body>
-	<button>Test</button>
+	<button>Temperatur från SMHI</button>
 	<div id="blogposts"></div>
 		<div id="hej"></div>
 </body>
