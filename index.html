@@ -7,7 +7,7 @@
 	$(document).ready(function() {
 		$("button").click(function() {
 	
-$.getJSON("http://api.aerisapi.com/observations/seattle,wa?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM", function( data ) {
+$.getJSON("https://api.aerisapi.com/observations/seattle,wa?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM", function( data ) {
   var items = [];
   $.each( data, function( key, val ) {
     items.push( "<li id='" + key + "'>" + val + "</li>" );
