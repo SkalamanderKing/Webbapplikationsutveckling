@@ -6,61 +6,34 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$("button").click(function() {
-		 // var f = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?";
-			/*$.getJSON(f, 
-				function(json) {
-				
-					$("#hej").append(f.title);
 	
-					
-			});*/
-			var post;
-				var tmp;
-				var tmp2;
-	
-		$.getJSON("https://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/18.178209/lat/59.415794/data.json?jsoncallback=?"
-		,function(json){
-  
-  
-  $.each(json.timeSeries, function(i, obj) {
-						 post = "<article>";
-						//post += "<h1>" + obj.validTime + "</h1>";
-						//post += "<h1>" + obj.parameters[1].values + "</h1>";
-					 tmp =obj.parameters[1];
-				
-					 		tmp2 = tmp.values.reverse();
-				//  tmp2.reverse();
-					 	/*for(var j in tmp.values)
-						{
-						tmp2 += tmp.values;
-						}*/
-					
-						//post += "<h1>" + tmp.parameters[1].values + "</h1>";
-//  $("#hej").append(json.timeSeries.validTime);
-
-				//	for(i in obj.parameters)
-					//	{
-						//post += "<h1>" + obj.parameters[i] + "</h1>";
-					//post += "<h1>" + obj.parameters[i].values + "</h1>";
-						
-							//$("#hej").append(json.timeSeries.parameters.name);
-						//}
-						//console.log(tmp2);
-							post += "</article>";
-					});
-					$("#blogposts").append("Stockholm: " + tmp2);
-						// console.log(tmp);
-						 // console.log(tmp2);
-						 // document.getElementById("hej").innerHTML = tmp2[0];
-						// console.log(post);
+$.getJSON("http://api.aerisapi.com/observations/seattle,wa?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM", function( data ) {
+  var items = [];
+  $.each( data, function( key, val ) {
+    items.push( "<li id='" + key + "'>" + val + "</li>" );
+  });
  
+  $( "<ul/>", {
+    "class": "my-new-list",
+    html: items.join( "" )
+  }).appendTo( "body" );
 });
+
+
+
+
+
+
+
 		});
 	});
+	
+
+	
 	</script>
 </head>
 <body>
-	<button>Temperatur från SMHI</button>
+	<button>Temperatur Stockholm</button>
 	<div id="blogposts"></div>
 		<div id="hej"></div>
 </body>
