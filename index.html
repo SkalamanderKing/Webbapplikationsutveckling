@@ -6,7 +6,7 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$("button").click(function() {
-	
+	/*
 $.getJSON("https://api.aerisapi.com/observations/seattle,wa?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM", function( data ) {
   var items = [];
   $.each( data, function( key, val ) {
@@ -19,10 +19,40 @@ $.getJSON("https://api.aerisapi.com/observations/seattle,wa?client_id=2DLZxkOpvY
   }).appendTo( "body" );
 });
 
+*/
 
+ $.ajax({
+         url: "http://api.aerisapi.com/observations/stockholm,se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
+         dataType: "jsonp",
+         success: function(json) {
+            if (json.success == true) {
+               var ob = json.response.ob;
+               $('#hej').html('The current weather in Stockholm is ' + ob.weather.toLowerCase() + ' with a temperature of ' + ob.tempC + '°');
+            }
+            else {
+               alert('An error occurred: ' + json.error.description);
+            }
+         }
+      });
+	/*  
+var API_KEY = '4256475-925bde49e01d6fbe1127b56a1';
+var URL = "https://pixabay.com/api/?key="+API_KEY+"&q="+encodeURIComponent('red roses');
+$.getJSON(URL, function(data){
+    if (parseInt(data.totalHits) > 0)
+        $.each(data.hits, function(i, hit){ console.log(hit.pageURL); });
+    else
+        console.log('No hits');
+});
+*/
 
-
-
+var img = $("<img />").attr('src', 'https://pixabay.com/get/ee34b40a2cf41c2ad65a5854e24e4390e770e7c818b5194596f1c37ba2e9_640.jpg')
+    .on('load', function() {
+        if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+            alert('broken image!');
+        } else {
+            $("#blogposts").append(img);
+        }
+    });
 
 
 		});
