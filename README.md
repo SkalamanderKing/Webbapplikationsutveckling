@@ -19,7 +19,7 @@ YH-programmet JavaScriptutvecklare Frontend, Lernia Utbildning AB.
 * Bootstrap
 
 **Webbutvecklingstekniker**
-AJAX, JSON, JSONP
+* AJAX, JSON, JSONP
 
 **Arbetsprocess**
 

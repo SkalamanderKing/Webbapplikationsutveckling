@@ -13,8 +13,58 @@
   
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <script src="js/script.js"></script>
+  
+  <script type="text/javascript">
+  
+		var la=0;
+		var lo=0;
+
+	$(document).ready(function() {
+	
+	navigator.geolocation.getCurrentPosition(function(position) {
+  la= position.coords.latitude.toString(); 
+  lo= position.coords.longitude.toString();
+});
+  
+			
+		$("button").click(function() {
+		 console.log(la+" "+lo);
+
+		var Coord = {
+Latitude: la, 
+Longitude: lo
+};
+
+		
+
+ $.ajax({
+         url: "https://api.aerisapi.com/observations/" + Coord.Latitude + "," + Coord.Longitude + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
+         dataType: "jsonp",
+         success: function(json) {
+            if (json.success == true) {
+               var ob = json.response.ob;
+               $('#hej').html('The current weather is ' + ob.weather.toLowerCase() + ' with a temperature of ' + ob.tempC + '°');
+            }
+            else {
+               alert('An error occurred: ' + json.error.description);
+            }
+         }
+      });
+	
+
+
+		});
+	});
+	
+
+	
+	</script>
 </head>
 <body>
+
+<button>Vädret där du är</button>
+	<div id="blogposts"></div>
+		<div id="hej"></div>
 
 </body>
 </html
