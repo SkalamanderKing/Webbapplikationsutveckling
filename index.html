@@ -1,70 +1,109 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-	<title>Test</title>
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function() {
-		$("button").click(function() {
-	/*
-$.getJSON("https://api.aerisapi.com/observations/seattle,wa?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM", function( data ) {
-  var items = [];
-  $.each( data, function( key, val ) {
-    items.push( "<li id='" + key + "'>" + val + "</li>" );
-  });
- 
-  $( "<ul/>", {
-    "class": "my-new-list",
-    html: items.join( "" )
-  }).appendTo( "body" );
-});
+  <title>Birdy Game</title>
+  <meta charset="utf-8">
 
-*/
-
- $.ajax({
-         url: "https://api.aerisapi.com/observations/stockholm,se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
-         dataType: "jsonp",
-         success: function(json) {
-            if (json.success == true) {
-               var ob = json.response.ob;
-               $('#hej').html('The current weather in Stockholm is ' + ob.weather.toLowerCase() + ' with a temperature of ' + ob.tempC + '°');
-            }
-            else {
-               alert('An error occurred: ' + json.error.description);
-            }
-         }
-      });
-	/*  
-var API_KEY = '4256475-925bde49e01d6fbe1127b56a1';
-var URL = "https://pixabay.com/api/?key="+API_KEY+"&q="+encodeURIComponent('red roses');
-$.getJSON(URL, function(data){
-    if (parseInt(data.totalHits) > 0)
-        $.each(data.hits, function(i, hit){ console.log(hit.pageURL); });
-    else
-        console.log('No hits');
-});
-*/
-
-var img = $("<img />").attr('src', 'https://pixabay.com/get/ee34b40a2cf41c2ad65a5854e24e4390e770e7c818b5194596f1c37ba2e9_640.jpg')
-    .on('load', function() {
-        if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-            alert('broken image!');
-        } else {
-            $("#blogposts").append(img);
-        }
-    });
-
-
-		});
-	});
-	
-
-	
-	</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  
+  
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script src="js/script.js"></script>
 </head>
 <body>
-	<button>Temperatur Stockholm</button>
-	<div id="blogposts"></div>
-		<div id="hej"></div>
+<!--Navigation bar-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bar">
+	 <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                   
+      </button> 
+    </div>
+
+    <div class="collapse navbar-collapse" id="bar">
+
+      <ul class="nav navbar-nav navbar-right">
+	<li><a href="games.html">Games</a></li>
+        <li><a href="#">About </a></li>
+		<li><a href="#" data-toggle="modal" data-target="#myModal">Sign in</a></li>
+		</ul>
+	</div>
+  </div>
+</nav>
+
+<!--Modal inlog-->
+<div class="container">
+  <div class="modal fade" id="myModal" role="dialog">
+<div class="modal-dialog modal-sm">
+      <div class="modal-content">
+		<div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3><span class="glyphicon glyphicon-tree-conifer"></span> Login</h3>
+        </div>
+        <div class="modal-body">
+          <form>
+			<!--validation for success message-->
+            <div class="form-group has-success has-feedback">
+              <label for="usrname"> Username</label>
+              <input type="email" class="form-control" id="usrname" placeholder="Enter email" required>
+            </div>
+            <div class="form-group has-warning has-feedback">
+              <label for="psw">Password</label>
+              <input type="password" class="form-control" id="psw" placeholder="Enter password" required>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="" checked>Remember</label>
+            </div>
+              <button type="submit" class="btn btn-primary btn-block outline"><span class="glyphicon glyphicon-off"></span> Login</button>
+          </form>
+        </div> 
+<div class="modal-footer">
+ <p>Forgotten your <a href="#">Password?</a></p>
+        </div>   
+		</div>
+      </div>
+  </div> 
+</div>
+
+<!--Biggest area, probaly the first section that cathes the users attenion-->
+  <section class="jumbotron">
+<div class="container">
+  <div class="row text-center">
+     <h1>WELCOME!</h1>
+  <img class="birdy" src="img/birdy1.png"  rel="img/birdy2.png" alt="Birdy" width="256" height="320"> 
+	 <div class="row">
+	  <a href="games.html" class="btn btn-danger btn-lg " role="button" aria-pressed="true">&nbsp;&nbsp;&nbsp; PLAY! &nbsp;&nbsp;&nbsp;</a>
+ 	</div> 
+	</div>
+	</div>
+  </div>
+</section>
+
+<!--Info-->
+<section class="container">
+<div class="row">
+ <figure class="col-xs-4">
+<p class="mqtx">Birdy</p>
+<img id="bild" src="img/birdy3D.png" class="img-rounded" alt="Birdy2" width="384" height="384">
+    </figure>
+	<main><h3>Hello, on this site you will find some cool games! </h3></main>
+	  </div>
+</section>
+</div>
+  </div>
+ 
+ <!--footer with content-->
+<footer class="container">
+ <div class="row">
+ <div class="foo">
+ &copy;   2016 FREDRICK <br/>Birdy Ltd, All rights reserved
+ </div> </div>
+</footer>
 </body>
 </html
