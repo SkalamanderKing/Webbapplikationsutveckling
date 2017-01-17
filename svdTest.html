@@ -44,7 +44,7 @@ p{
 
 	value = $("#test").val().toString(); 
 	
-		  var f = "http://api.nobelprize.org/v1/prize.json?year=" + value + "&yearTo=" + value + "&category=literature";
+		  var f = "https://api.nobelprize.org/v1/prize.json?year=" + value + "&yearTo=" + value + "&category=literature";
 			$.getJSON(f, 
 				function(data) {
 				
