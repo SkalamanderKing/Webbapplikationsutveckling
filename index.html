@@ -20,22 +20,47 @@
 		var lo=0;
 
 	$(document).ready(function() {
-	
+	/*
 	navigator.geolocation.getCurrentPosition(function(position) {
   la= position.coords.latitude.toString(); 
   lo= position.coords.longitude.toString();
 });
-  
+  */
 			
 		$("button").click(function() {
+			  var f = "https://libris.kb.se/xsearch?query=August+Strindberg&n=10&format=json";
+			$.getJSON(f, 
+				function(data) {
+				
+					$("#hej").append(data.xsearch.from);
+					
+					$.each(data.xsearch.list, function(i, obj) {
+						var post = "<article>";
+						post += "<h1>" + obj.title + "</h1>";
+						post += "<p>" + obj.creator + "</p>";
+						post += "<ul>";
+						/*for(var i in obj.tags)
+						{
+							post += "<li>" + obj.tags[i] + "</li>";
+						}*/
+						post += "</ul>";
+						post += "</article>";
+						$("#blogposts").append(post);
+					});
+		
+					
+			});
+		
+		
+		
+		
+		 /*
 		 console.log(la+" "+lo);
 
 		var Coord = {
 Latitude: la, 
 Longitude: lo
 };
-
-		
 
  $.ajax({
          url: "https://api.aerisapi.com/observations/" + Coord.Latitude + "," + Coord.Longitude + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
@@ -51,7 +76,7 @@ Longitude: lo
          }
       });
 	
-
+*/
 
 		});
 	});
