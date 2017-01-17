@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+	  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	  <style>
+#test {
+    width: 70px;
+	height: 30px;
+	font-size: 120%;
+}
+button {
+    width: 70px;
+	height: 30px;
+	font-size: 120%;
+}
+p{
+	font-size: 120%;
+}
+  	</style>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	
+	 var value;
+	 
+	 $(':text').keyup(function() {
+    if($('#test').val() != "" ){
+       $('#sub').removeAttr('disabled');
+    } else {
+       $('#sub').attr('disabled', true);   
+    }
+});
+	 
+	 
+		$("button").click(function() {
+		
+
+	value = $("#test").val().toString(); 
+	
+		  var f = "http://api.nobelprize.org/v1/prize.json?year=" + value + "&yearTo=" + value + "&category=literature";
+			$.getJSON(f, 
+				function(data) {
+				
+					//$("#hej").append(data.prizes.year);
+							$.each(data.prizes, function(i, obj) {
+						var post = "<article>";
+						post += "<h1>" + obj.year + "</h1>";
+						//post += "<p>" + obj.category + "</p>";
+						post += "<ul>";
+						for(var i in obj.laureates)
+						{
+							post += "<li>" + obj.laureates[i].firstname + " "+ obj.laureates[i].surname + "</li>";
+						}
+						post += "</ul>";
+						post += "</article>";
+						$("#blogposts").append(post);
+					});
+		
+					
+			});
+			
+		});
+	});
+	</script>
+</head>
+<body>
+<h1>Nobelpristagare i literatur</h1>
+<p>Skriv ett årtal t.ex. "1970" för att få veta vem som vann</p>
+	<input type="text" id="test" maxlength="4">
+	<button id = "sub" disabled>Test</button>
+	<div id="blogposts"></div>
+		<div id="hej"></div>
+</body>
+</html
