@@ -16,24 +16,16 @@
   
   <script type="text/javascript">
   
-		var la=0;
-		var lo=0;
+	
 
 	$(document).ready(function() {
-	/*
-	navigator.geolocation.getCurrentPosition(function(position) {
-  la= position.coords.latitude.toString(); 
-  lo= position.coords.longitude.toString();
-});
-  */
-			
 		$("button").click(function() {
 			  //var f = "https://libris.kb.se/xsearch?query=August+Strindberg&n=10&format=json";
-			  		  var f = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=05b05226efce66d39e0675947304f0fe&text=sun&format=json&nojsoncallback=1&api_sig=f6112e956ae977a834b37109b304bca3";
+var f = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=05b05226efce66d39e0675947304f0fe&text=clear&format=json&nojsoncallback=1";
 			$.getJSON(f, 
 				function(data) {
+				
 				objekt =data.photos.photo[0];
-
 farm =objekt.farm;
     console.log("farm: "+farm);
 serverId =objekt.server;
@@ -48,7 +40,7 @@ serverId =objekt.server;
   
 var blaha= '<img id="theImg" src=' + zelda+ '/>';
 	$('#theDiv').prepend(blaha)
-				
+		
 					/*
 					$("#hej").append(data.xsearch.from);
 					$.each(data.xsearch.list, function(i, obj) {
@@ -65,23 +57,34 @@ var blaha= '<img id="theImg" src=' + zelda+ '/>';
 						$("#blogposts").append(post);
 						*/
 					});
-				
 					
 			//});
+		// console.log(la+" "+lo);
+	getLocation();
 		
-		
-		
-		
-		 /*
-		 console.log(la+" "+lo);
+		function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
 
-		var Coord = {
-Latitude: la, 
-Longitude: lo
-};
+function showPosition(position) {
+   // x.innerHTML = "Latitude: " + position.coords.latitude + 
+    //"<br>Longitude: " + position.coords.longitude;
+	
+	 la_ =  position.coords.latitude;
+	lo_= position.coords.longitude;
+	
+	loadWeatherData(la_, lo_);
+	
+	
+}
 
+function loadWeatherData(lat, lon) {
  $.ajax({
-         url: "https://api.aerisapi.com/observations/" + Coord.Latitude + "," + Coord.Longitude + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
+         url: "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
          dataType: "jsonp",
          success: function(json) {
             if (json.success == true) {
@@ -93,14 +96,17 @@ Longitude: lo
             }
          }
       });
+	  }
+
+
+
 	
-*/
+
 
 		});
 	});
 	
 
-	
 	</script>
 </head>
 <body>
