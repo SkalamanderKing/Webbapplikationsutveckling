@@ -28,28 +28,46 @@
   */
 			
 		$("button").click(function() {
-			  var f = "https://libris.kb.se/xsearch?query=August+Strindberg&n=10&format=json";
+			  //var f = "https://libris.kb.se/xsearch?query=August+Strindberg&n=10&format=json";
+			  		  var f = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=05b05226efce66d39e0675947304f0fe&text=sun&format=json&nojsoncallback=1&api_sig=f6112e956ae977a834b37109b304bca3";
 			$.getJSON(f, 
 				function(data) {
+				objekt =data.photos.photo[0];
+
+farm =objekt.farm;
+    console.log("farm: "+farm);
+serverId =objekt.server;
+  console.log("server: "+serverId);
+  id =objekt.id;
+  console.log("id: "+ id);
+    secret =objekt.secret;
+  console.log("secret: " + secret);
+
+  var zelda= "https://farm" + farm + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + ".jpg";
+  
+  
+var blaha= '<img id="theImg" src=' + zelda+ '/>';
+	$('#theDiv').prepend(blaha)
 				
+					/*
 					$("#hej").append(data.xsearch.from);
-					
 					$.each(data.xsearch.list, function(i, obj) {
 						var post = "<article>";
 						post += "<h1>" + obj.title + "</h1>";
 						post += "<p>" + obj.creator + "</p>";
 						post += "<ul>";
-						/*for(var i in obj.tags)
-						{
-							post += "<li>" + obj.tags[i] + "</li>";
-						}*/
+						//for(var i in obj.tags)
+						//{
+							//post += "<li>" + obj.tags[i] + "</li>";
+						//}
 						post += "</ul>";
 						post += "</article>";
 						$("#blogposts").append(post);
+						*/
 					});
-		
+				
 					
-			});
+			//});
 		
 		
 		
@@ -87,11 +105,12 @@ Longitude: lo
 </head>
 <body>
 <div class="container">
-<button type="button" class="btn btn-primary btn-lg">The weather where You are</button>
+<button type="button" class="btn btn-primary btn-lg">Test</button>
 	<div id="blogposts"></div>
 		<div id="hej"></div>
+			<div id="theDiv">Image?</div>
 </div>
 
-<a href="svdTest.html">Nobelpris</a>
+<!-- <a href="svdTest.html">Nobelpris</a> -->
 </body>
 </html
