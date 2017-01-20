@@ -15,51 +15,15 @@
   <script src="js/script.js"></script>
   
   <script type="text/javascript">
-  
-	
-
+    var auth = "";
+	//var vart = "Sana,YE";
+		  
 	$(document).ready(function() {
 		$("button").click(function() {
-			  //var f = "https://libris.kb.se/xsearch?query=August+Strindberg&n=10&format=json";
-var f = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=05b05226efce66d39e0675947304f0fe&text=clear&format=json&nojsoncallback=1";
-			$.getJSON(f, 
-				function(data) {
-				
-				objekt =data.photos.photo[0];
-farm =objekt.farm;
-    console.log("farm: "+farm);
-serverId =objekt.server;
-  console.log("server: "+serverId);
-  id =objekt.id;
-  console.log("id: "+ id);
-    secret =objekt.secret;
-  console.log("secret: " + secret);
-
-  var zelda= "https://farm" + farm + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + ".jpg";
-  
-  
-var blaha= '<img id="theImg" src=' + zelda+ '/>';
-	$('#theDiv').prepend(blaha)
 		
-					/*
-					$("#hej").append(data.xsearch.from);
-					$.each(data.xsearch.list, function(i, obj) {
-						var post = "<article>";
-						post += "<h1>" + obj.title + "</h1>";
-						post += "<p>" + obj.creator + "</p>";
-						post += "<ul>";
-						//for(var i in obj.tags)
-						//{
-							//post += "<li>" + obj.tags[i] + "</li>";
-						//}
-						post += "</ul>";
-						post += "</article>";
-						$("#blogposts").append(post);
-						*/
-					});
-					
-			//});
-		// console.log(la+" "+lo);
+
+		
+		
 	getLocation();
 		
 		function getLocation() {
@@ -71,39 +35,76 @@ var blaha= '<img id="theImg" src=' + zelda+ '/>';
 }
 
 function showPosition(position) {
-   // x.innerHTML = "Latitude: " + position.coords.latitude + 
-    //"<br>Longitude: " + position.coords.longitude;
+//https://api.aerisapi.com/observations/59.3133135, 18.0914279?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM
 	
-	 la_ =  position.coords.latitude;
-	lo_= position.coords.longitude;
+	var la_ =  position.coords.latitude;
+	var lo_= position.coords.longitude;
 	
+	//	 la_ =  59.3133135;
+	//lo_= 18.0914279;
+	 //console.log(la_+" "+lo_);
 	loadWeatherData(la_, lo_);
 	
-	
 }
-
-function loadWeatherData(lat, lon) {
+	 
+		});
+		function loadWeatherData(lat, lon) {
  $.ajax({
-         url: "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
-         dataType: "jsonp",
+        url: "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
+         //url: "https://api.aerisapi.com/observations/"+vart+"%20CA?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
+		 dataType: "jsonp",
          success: function(json) {
             if (json.success == true) {
                var ob = json.response.ob;
-               $('#hej').html('The current weather is ' + ob.weather.toLowerCase() + ' with a temperature of ' + ob.tempC + '°');
+			 
+			  var vader = ob.weather.toLowerCase();
+			   getAuthor(vader);
+		
+			   
+			   
+               $('#hej').html(vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
             }
             else {
                alert('An error occurred: ' + json.error.description);
             }
          }
       });
-	  }
-
-
-
+	  };
+	  function getAuthor(vader){
 	
-
-
-		});
+	  			   if (vader.includes("clear" || "sunny" || "fair"))
+			   auth = "August+Strindberg";
+			   else if (vader.includes("mostly Clear" || "mostly sunnny"))
+			   auth = "Karin+Boye";
+			   else if (vader.includes("mostly cloudy"))
+			    auth = "Stig+Dagerman";
+				else 
+				auth = "Kerstin+Ekman";
+				 var f = "https://libris.kb.se/xsearch?query=Stig+Dagerman&n=10&format=json";
+				  var f = "https://libris.kb.se/xsearch?query="+auth+"&n=10&format=json";
+			$.getJSON(f, 
+				function(data) {
+		
+					//$("#hej").append(data.xsearch.from);
+					
+				//	$.each(data.xsearch.list, function(i, obj) {
+						/*var post = "<article>";
+						post += "<h1>" + obj.title + "</h1>";
+						post += "<p>" + obj.creator + "</p>";
+						post += "<ul>";
+						//for(var i in obj.tags)
+						//{
+							//post += "<li>" + obj.tags[i] + "</li>";
+						//}
+						post += "</ul>";
+						post += "</article>";*/
+						$("#blogposts").append(data.xsearch.list[0].title + " Av "+auth.replace("+", " "));
+						
+					//});
+					
+					
+			});
+			}
 	});
 	
 
@@ -112,9 +113,11 @@ function loadWeatherData(lat, lon) {
 <body>
 <div class="container">
 <button type="button" class="btn btn-primary btn-lg">Test</button>
-	<div id="blogposts"></div>
+	<h3>Today when the current weather is</h3>
 		<div id="hej"></div>
-			<div id="theDiv">Image?</div>
+		<h3>Maybe this book could be nice to read:</h3>
+		<div id="blogposts"></div>
+			<div id="theDiv"></div>
 </div>
 
 <!-- <a href="svdTest.html">Nobelpris</a> -->
