@@ -1,109 +1,215 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>First AJAC jQuery getJSON Demo</title>
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<script type="text/javascript">
+  <title>Weather</title>
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  
+  
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script src="js/script.js"></script>
+  
+  <script type="text/javascript">
+    var auth = "";
+	//var vart = "Sana,YE";
+		  
 	$(document).ready(function() {
+		//$("button").click(function() {
+		
+	//hämta position
+	getLocation();
+		
+	 
+	//	}); /************click******************/
+		
+
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			} 
+			else 
+				x.innerHTML = "Geolocation is not supported by this browser.";
+		};
 	
-	var objekt;
-	var farm;
-	var serverId;
-	var id;
-	var secret;
-	//var ItemsList=[ { ItemID:"1", ItemName: "abc" }, { ItemID: "2", ItemName: "dg" }, { ItemID:"3", ItemName:  "erte"} ];
-		$("button").click(function() {
-		  //var f = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=05b05226efce66d39e0675947304f0fe&text=sun&format=json&nojsoncallback=1&api_sig=f6112e956ae977a834b37109b304bca3";
-			var f = "https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=3473b56ab7072edfde6d209f43336f12&user_id=146824987%40N08&format=json&nojsoncallback=1";
+		//sätt in anv position i variabler som ska anv för att ta fram vädret
+		function showPosition(position) {
+			//https://api.aerisapi.com/observations/59.3133135, 18.0914279?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM
+			var la_ =  position.coords.latitude;
+			var lo_= position.coords.longitude;
+			//	 la_ =  59.3133135;
+			//lo_= 18.0914279;
+			//console.log(la_+" "+lo_);
+			loadWeatherData(la_, lo_);
+		};
+		
+		//hämta väderdata
+		function loadWeatherData(lat, lon) {
+			$.ajax({
+			url: "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
+         //url: "https://api.aerisapi.com/observations/"+vart+"%20CA?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
+			dataType: "jsonp",
+			success: function(json) {
+		 
+				if (json.success == true) {
+					var ob = json.response.ob;
+					//sätt resultat till varibale som anropar författar metod
+					var vader = ob.weather.toLowerCase();
+					getAuthor(vader);
+					$('#hej').html(vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
+            }
+            else {
+               alert('An error occurred: ' + json.error.description);
+            }
+         }
+      });
+	  };
+	  
+	  //beroene på väder kommer olika författare och bok väljas
+	  function getAuthor(vader){
+	   var rand;
+	   var tmp;
+			if (vader.includes("clear" || "sunny" || "fair"))
+			{
+				auth = "August+Strindberg";
+				 $("#my_image").attr("src","sol.png");
+				}
+			else if (vader.includes("mostly Clear" || "mostly sunnny"))
+			{
+			   auth = "Karin+Boye";
+			   $("#my_image").attr("src","halv_sol.png");
+			   }
+			else if (vader.includes("mostly cloudy"))
+			{
+			    auth = "Stig+Dagerman";
+				$("#my_image").attr("src","halv_moln.png");
+				}
+			else if (vader.includes("cloudy"))
+			{
+			    auth = "Bodil+Malmsten";
+				$("#my_image").attr("src","moln.png");
+				}
+			else 
+			{
+				auth = "Kerstin+Ekman";
+				 $("#my_image").attr("src","dark_moln.png");
+				}
+				
+			//var f = "https://libris.kb.se/xsearch?query=Bodil+Malmsten&n=5&format=json";
+				 
+			//sök efter förfatare på kb
+			//var f = "https://libris.kb.se/xsearch?query="+auth+"&n=10&format=json";
+			var f = "https://libris.kb.se/xsearch?query="+auth+"&n=5&format=json";
 			$.getJSON(f, 
 				function(data) {
-				
-				//$("#hej").append(data.photos.pages);
-				
-				//https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-			//	var blaha= '<img id="theImg" src="https://farm1.staticflickr.com/673/32236036682_e2a33d485b.jpg" />';
-			
-				
-					//var rand = data[Math.floor(Math.random() * data.length)]
-					
-				
-		/*		
-		function shuffle(a) {
-    var j, x, i;
-    for (i = a.length; i; i--) {
-        j = Math.floor(Math.random() * i);
-        x = a[i - 1];
-        a[i - 1] = a[j];
-        a[j] = x;
-    }
-}
-shuffle(data);
-*/
-objekt =data.photos.photo[0];
-
-farm =objekt.farm;
-    console.log("farm: "+farm);
-serverId =objekt.server;
-  console.log("server: "+serverId);
-  id =objekt.id;
-  console.log("id: "+ id);
-    secret =objekt.secret;
-  console.log("secret: " + secret);
-
-  //var zelda= "https://farm" + farm + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + ".jpg";
-    var zelda= "https://farm" + farm + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + ".jpg";
-  
-var blaha= '<img id="theImg" src=' + zelda+ '/>';
-	$('#theDiv').prepend(blaha)
-	//$("#blogposts").append(ett.id);
-		/*	
-function simpleArray(target){
-    var arr = [];
-    $.each(target, function(i, e){
-        $.each(e, function(key, val){
-            arr.push(key);
-            arr.push(val);
-        });
-    });
-    return arr;
-}			
-		*/			
-					
-					//$.each(data.photos.photo, function(i, obj) {
-					
-						//var k = "<article>";
-						//var post = "<article>";
-						//post += "<h1>" + obj.id + "</h1>";
 						
-					//k += "<h1>" + obj.id + "</h1>";
-						//post += "<h2>" + obj.farm+ "</h2>";
+					var arr;
+		//var test = data;
+			//	var result = [];
+
+//for(var i in data)
+  //  result.push([i, data[i]])		
+			//console.log("Resuklt "+result.from);
+			//var obj = JSON.parse(data);
 			
-						//post += "<ul>";
-					/*
-						for(var i in obj.tags)
+				//		var arr = result.filter(function(el) {
+					//return el.identifier === "E-book";
+				//});
+
+				//console.log("borta" + JSON.stringify(arr, null, ' '));
+				/*
+				var ett = data.xsearch.list[0].title.toString();
+				var tva = data.xsearch.list[1].title.toString();
+				var tre = data.xsearch.list[2].title.toString();
+				var fyra = data.xsearch.list[3].title.toString();
+				var fem = data.xsearch.list[4].title.toString();
+				arr = [ett, tva, tre, fyra, fem];
+				var qw= "Elektronisk";
+				
+				//if (ett.length)
+				if(ett.includes("Elektronisk"))
+					console.log("hej"+ett);
+				*/
+		
+				rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
+			
+							//console.log(JSON.stringify(test));
+							
+					//$("#hej").append(data.xsearch.from);
+					
+			//	$.each(data.xsearch.list, function(i, obj) {
+					//console.log("i "+i);
+					//var arr = JSON.stringify(data.xsearch.list);
+			//console.log("test "+data.xsearch.list[i].title);
+			 /* 	for(var i in data.xsearch.list)
 						{
-							post += "<li>" + obj.tags[i] + "</li>";
+							//arr.push(obj.title[i]);
+							//post += "<li>" + obj.tags[i] + "</li>";
+							arr += data.xsearch.list.title[i];
 						}*/
+			  
+			  //arr.push(data.xsearch.list);
+			// arr+=obj.title[i];
+				//rand=i;
+				//console.log(arr);
+				//console.log(arr.length);
+		
+			//tmp = obj.title.split(",");
+				//console.log("hej"+rand);
+				//});
+					//console.log("Ett "+arr);
+			// rand = tmp[Math.floor(Math.random() * rand)];
+			
+				//console.log("st "+data.xsearch.list.length);
+					
+					
+				/*
+				if (rand instanceof Array) {
+  alert('value is Array!');
+} else {
+  alert('Not an array');
+}
+			*/	
+						/*var post = "<article>";
+						post += "<h1>" + obj.title + "</h1>";
+						post += "<p>" + obj.creator + "</p>";
+						post += "<ul>";
+						//for(var i in obj.tags)
+						//{
+							//post += "<li>" + obj.tags[i] + "</li>";
+						//}
+						post += "</ul>";
+						post += "</article>";*/
 						
-						//post += "</ul>";
-						//post += "</article>";
-					//	k += "</article>";
-						//$("#blogposts").append(post);
-						//	$("#blogposts").append(k);
-				
-					//});
+						//appenda första boken
+			
 						
+					
+								$("#blogposts").append(data.xsearch.list[rand].title + " Av "+auth.replace("+", " "));
 					
 			});
-		});
+			};
 	});
+	
+
 	</script>
 </head>
 <body>
-	<button>Ladda blog data</button>
-	<div id="blogposts"></div>
+<div class="container">
+<button type="button" class="btn btn-primary btn-lg">Test</button>
+	<h3>Today when the current weather is</h3>
 		<div id="hej"></div>
-		<div id="theDiv">Where is the image?</div>
-		<!-- <img src="https://farm1.staticflickr.com/595/32345069266_fbfe87c039.jpg" alt="W3Schools.com" style="width:104px;height:142px;"> -->
+		<img id="my_image" src=""/>
+		<h3>Maybe this book could be nice to read:</h3>
+		<div id="blogposts"></div>
+			<div id="theDiv"></div>
+			
+
+
+<!-- <a href="svdTest.html">Nobelpris</a> -->
 </body>
 </html
