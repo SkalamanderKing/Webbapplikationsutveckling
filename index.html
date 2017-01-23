@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
   
   
   <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -19,13 +19,13 @@
 	//var vart = "Sana,YE";
 		  
 	$(document).ready(function() {
-		//$("button").click(function() {
+		$("button").click(function() {
 		
 	//hämta position
 	getLocation();
 		
 	 
-	//	}); /************click******************/
+	}); /************click******************/
 		
 
 		function getLocation() {
@@ -62,7 +62,7 @@
 							//console.log(JSON.stringify(vader));
 					//getAuthor(JSON.stringify(vader));
 					getAuthor(vader);
-					$('#hej').html(vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
+					$('#foreCast').html('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
             }
             else {
                alert('An error occurred: ' + json.error.description);
@@ -143,9 +143,11 @@
 			var f = "https://libris.kb.se/xsearch?query="+auth+"&n=5&format=json";
 			$.getJSON(f, 
 				function(data) {
+					console.log(data.xsearch.list.length);
 						rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
+						if(rand<=-1)rand=0;
 							console.log("rand" +rand);
-							$("#blogposts").append(data.xsearch.list[rand].title + " Av "+auth.replace("+", " "));
+							$("#bookAndAuthor").append("Maybe this book could be nice to read: " + data.xsearch.list[rand].title + " By "+auth.replace("+", " "));
 					//var arr;
 		//var test = data;
 			//	var result = [];
@@ -247,17 +249,47 @@
 	</script>
 </head>
 <body>
+
 <div class="container">
-<button type="button" class="btn btn-primary btn-lg">Test</button>
-	<h3>Today when the current weather is</h3>
-		<div id="hej"></div>
-		<img id="my_image" src=""/>
-		<h3>Maybe this book could be nice to read:</h3>
-		<div id="blogposts"></div>
-			<div id="theDiv"></div>
-			
+  <h2>Weather and Books</h2>
+  <p>There is no bad weather, only bad books</p>
 
 
-<a href="test.html">testa</a> 
+			  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+    <li><a data-toggle="tab" href="#menu1">Local</a></li>
+    <li><a data-toggle="tab" href="#menu2">Links</a></li>
+    <li><a data-toggle="tab" href="#menu3">About</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+    
+	
+      
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <h3>Please press button for a weather cast and a book tip from your location!</h3>
+	  	  
+		<div id="foreCast"></div>
+		<img id="my_image" src="img/qm.png"/>
+
+		<div id="bookAndAuthor"></div>
+	  <button type="button" class="btn btn-primary btn-lg">Weather & Books</button> 
+
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Game</h3>
+      <p>Test</p> <a href="test.html">testa</a> 
+    </div>
+    <div id="menu3" class="tab-pane fade">
+      <h3>Menu 3</h3>
+      <p> This site use Aerisapi Api (www.aerisapi.com), Flickr Api, Geolocation Api and Libris Api</p>
+    </div>
+  </div>
+</div>
+
+
+
 </body>
 </html
