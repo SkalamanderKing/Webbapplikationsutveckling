@@ -59,6 +59,8 @@
 					var ob = json.response.ob;
 					//sätt resultat till varibale som anropar författar metod
 					var vader = ob.weather.toLowerCase();
+							//console.log(JSON.stringify(vader));
+					//getAuthor(JSON.stringify(vader));
 					getAuthor(vader);
 					$('#hej').html(vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
             }
@@ -69,54 +71,63 @@
       });
 	  };
 	  
+	  /*
+	  function loadWeatherData(lat, lon){
+	  var weathers = "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+		$.getJSON(weathers).then(function(data) {
+				var ob = data.response.ob;
+						console.log(ob.weather);
+       		var vader = ob.weather.toLowerCase();
+			console.log("vader "+vader);
+					getAuthor(vader);
+					$('#hej').html(vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
+    })
+    .fail(function() {
+        // ...didn't work, handle it
+    });
+	*/
+	/*
+	$.getJSON(webDataUrl, function(data) {
+    .then(function(data) {
+        // ...worked, put it in #view-web
+    })
+    .fail(function() {
+        // ...didn't work, handle it
+    });
+	  };*/
+	  
 	  //beroene på väder kommer olika författare och bok väljas
 	  function getAuthor(vader){
+	  
+	  console.log(vader);
+	console.log(vader.includes("mostly" && "sunny"));
 	   var rand;
 	   var tmp;
 			if (vader.includes("clear" || "sunny" || "fair"))
 			{
 				auth = "August+Strindberg";
-
-				 $("#my_image").attr("src","img/sol.png");
-
-				 $("#my_image").attr("src","sol.png");
-
+				$("#my_image").attr("src","img/sol.png");
 				}
-			else if (vader.includes("mostly Clear" || "mostly sunnny"))
+			else if (vader.includes(("mostly" && "sunny") || ("mostly" && "clear"))) //("mostly clear" || "mostly sunny"))
 			{
 			   auth = "Karin+Boye";
-
-			   $("#my_image").attr("src","img/halv_sol.png");
-
-			   $("#my_image").attr("src","halv_sol.png");
-
+				$("#my_image").attr("src","img/halv_sol.png");
+			
 			   }
-			else if (vader.includes("mostly cloudy"))
+			else if (vader.includes("mostly" && "cloudy"))
 			{
 			    auth = "Stig+Dagerman";
-
 				$("#my_image").attr("src","img/halv_moln.png");
-
-				$("#my_image").attr("src","halv_moln.png");
-
 				}
 			else if (vader.includes("cloudy"))
 			{
 			    auth = "Bodil+Malmsten";
-
 				$("#my_image").attr("src","img/moln.png");
-
-				$("#my_image").attr("src","moln.png");
-
 				}
 			else 
 			{
 				auth = "Kerstin+Ekman";
-
-				 $("#my_image").attr("src","img/dark_moln.png");
-
-				 $("#my_image").attr("src","dark_moln.png");
-
+				$("#my_image").attr("src","img/dark_moln.png");
 				}
 				
 			//var f = "https://libris.kb.se/xsearch?query=Bodil+Malmsten&n=5&format=json";
@@ -154,7 +165,14 @@
 				if(ett.includes("Elektronisk"))
 					console.log("hej"+ett);
 				*/
-		
+				/*
+				var s = "foo",
+    su= "oo";
+	if(s.includes(su))
+		console.log("hej "+su);
+		else 
+			console.log("hej");
+		*/
 				rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
 			
 							//console.log(JSON.stringify(test));
@@ -209,10 +227,12 @@
 			
 						
 					
-								$("#blogposts").append(data.xsearch.list[rand].title + " Av "+auth.replace("+", " "));
+								$("#blogposts").append(data.xsearch.list[0].title + " Av "+auth.replace("+", " "));
 					
 			});
 			};
+			
+			
 	});
 	
 
