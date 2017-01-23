@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Weather</title>
@@ -76,27 +76,47 @@
 			if (vader.includes("clear" || "sunny" || "fair"))
 			{
 				auth = "August+Strindberg";
+
 				 $("#my_image").attr("src","img/sol.png");
+
+				 $("#my_image").attr("src","sol.png");
+
 				}
 			else if (vader.includes("mostly Clear" || "mostly sunnny"))
 			{
 			   auth = "Karin+Boye";
+
 			   $("#my_image").attr("src","img/halv_sol.png");
+
+			   $("#my_image").attr("src","halv_sol.png");
+
 			   }
 			else if (vader.includes("mostly cloudy"))
 			{
 			    auth = "Stig+Dagerman";
+
 				$("#my_image").attr("src","img/halv_moln.png");
+
+				$("#my_image").attr("src","halv_moln.png");
+
 				}
 			else if (vader.includes("cloudy"))
 			{
 			    auth = "Bodil+Malmsten";
+
 				$("#my_image").attr("src","img/moln.png");
+
+				$("#my_image").attr("src","moln.png");
+
 				}
 			else 
 			{
 				auth = "Kerstin+Ekman";
+
 				 $("#my_image").attr("src","img/dark_moln.png");
+
+				 $("#my_image").attr("src","dark_moln.png");
+
 				}
 				
 			//var f = "https://libris.kb.se/xsearch?query=Bodil+Malmsten&n=5&format=json";
