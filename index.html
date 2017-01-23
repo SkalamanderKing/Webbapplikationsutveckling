@@ -103,7 +103,7 @@
 	console.log(vader.includes("mostly" && "sunny"));
 	   var rand;
 	   var tmp;
-			if (vader.includes("clear" || "sunny" || "fair"))
+			if (vader.includes("sunny" || "fair"))
 			{
 				auth = "August+Strindberg";
 				$("#my_image").attr("src","img/sol.png");
@@ -124,6 +124,12 @@
 			    auth = "Bodil+Malmsten";
 				$("#my_image").attr("src","img/moln.png");
 				}
+				
+			else if (vader.includes("clear"))
+			{
+			    auth = "P.C.+Jersild";
+				$("#my_image").attr("src","img/moon.png");
+				}
 			else 
 			{
 				auth = "Kerstin+Ekman";
@@ -137,8 +143,10 @@
 			var f = "https://libris.kb.se/xsearch?query="+auth+"&n=5&format=json";
 			$.getJSON(f, 
 				function(data) {
-						
-					var arr;
+						rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
+							console.log("rand" +rand);
+							$("#blogposts").append(data.xsearch.list[rand].title + " Av "+auth.replace("+", " "));
+					//var arr;
 		//var test = data;
 			//	var result = [];
 
@@ -173,7 +181,7 @@
 		else 
 			console.log("hej");
 		*/
-				rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
+				
 			
 							//console.log(JSON.stringify(test));
 							
@@ -227,7 +235,7 @@
 			
 						
 					
-								$("#blogposts").append(data.xsearch.list[0].title + " Av "+auth.replace("+", " "));
+								
 					
 			});
 			};
