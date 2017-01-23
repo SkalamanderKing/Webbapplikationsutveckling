@@ -9,4 +9,14 @@ font-weight: 300;
   padding-bottom: 20px;
 }
 
-   
+   @media only screen and (max-width: 400px) {
+
+		body {
+		
+		font-size: 12px;
+		font-weight: 200;
+  		//padding-top: 20px;
+  		//padding-bottom: 20px;
+	}
+
+}
