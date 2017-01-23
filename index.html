@@ -16,13 +16,36 @@
   
   <script type="text/javascript">
     var auth = "";
-	//var vart = "Sana,YE";
+	var vart = "Stockholm,SE";
 		  
 	$(document).ready(function() {
+	
+	
+	
+	var sthlm ="https://api.aerisapi.com/observations/"+vart+"%20CA?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+		$.getJSON(sthlm).then(function(data) {
+				var obe = data.response.ob;
+						console.log("sthlm"+obe.weather);
+       		var sthlm_v = obe.weather.toLowerCase();
+			//console.log("vader "+vader);
+					//getAuthor(vader);
+					
+					//$('#sthlm').append(sthlm_v + ' with a temperature of ' + obe.tempC + '°' + ' ');
+				$('#sthlm').append('Temperature ' + obe.tempC + '°' + ' ');
+    })
+    .fail(function() {
+        alert('Error: ' + json.error.description);
+    });
+	
+	
+	
+	
 		$("button").click(function() {
 		
 	//hämta position
 	getLocation();
+		
+		
 		
 	 
 	}); /************click******************/
@@ -46,7 +69,7 @@
 			//console.log(la_+" "+lo_);
 			loadWeatherData(la_, lo_);
 		};
-		
+		/*
 		//hämta väderdata
 		function loadWeatherData(lat, lon) {
 			$.ajax({
@@ -70,8 +93,8 @@
          }
       });
 	  };
+	  */
 	  
-	  /*
 	  function loadWeatherData(lat, lon){
 	  var weathers = "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
 		$.getJSON(weathers).then(function(data) {
@@ -80,22 +103,14 @@
        		var vader = ob.weather.toLowerCase();
 			console.log("vader "+vader);
 					getAuthor(vader);
-					$('#hej').html(vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
+					$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
     })
     .fail(function() {
-        // ...didn't work, handle it
+        alert('Error: ' + json.error.description);
     });
-	*/
-	/*
-	$.getJSON(webDataUrl, function(data) {
-    .then(function(data) {
-        // ...worked, put it in #view-web
-    })
-    .fail(function() {
-        // ...didn't work, handle it
-    });
-	  };*/
-	  
+
+	  	};
+		
 	  //beroene på väder kommer olika författare och bok väljas
 	  function getAuthor(vader){
 	  
@@ -106,34 +121,34 @@
 			if (vader.includes("sunny" || "fair"))
 			{
 				auth = "August+Strindberg";
-				$("#my_image").attr("src","img/sol.png");
+				$("#my_image").attr("src","img/sun.png");
 				}
 			else if (vader.includes(("mostly" && "sunny") || ("mostly" && "clear"))) //("mostly clear" || "mostly sunny"))
 			{
 			   auth = "Karin+Boye";
-				$("#my_image").attr("src","img/halv_sol.png");
+				$("#my_image").attr("src","img/p_sun.png");
 			
 			   }
 			else if (vader.includes("mostly" && "cloudy"))
 			{
 			    auth = "Stig+Dagerman";
-				$("#my_image").attr("src","img/halv_moln.png");
+				$("#my_image").attr("src","img/p_cloud.png");
 				}
 			else if (vader.includes("cloudy"))
 			{
 			    auth = "Bodil+Malmsten";
-				$("#my_image").attr("src","img/moln.png");
+				$("#my_image").attr("src","img/cloudy.png");
 				}
 				
 			else if (vader.includes("clear"))
 			{
 			    auth = "P.C.+Jersild";
-				$("#my_image").attr("src","img/moon.png");
+				$("#my_image").attr("src","img/clear.png");
 				}
 			else 
 			{
 				auth = "Kerstin+Ekman";
-				$("#my_image").attr("src","img/dark_moln.png");
+				$("#my_image").attr("src","img/d_cloud.png");
 				}
 				
 			//var f = "https://libris.kb.se/xsearch?query=Bodil+Malmsten&n=5&format=json";
@@ -241,8 +256,7 @@
 					
 			});
 			};
-			
-			
+		
 	});
 	
 
@@ -264,7 +278,44 @@
 
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
-    
+	
+      <section ">
+<div class="container">
+<div class="row text-center">
+     <h2>Select your city</h2>
+	
+	 <figure class="col-xs-6">
+	 
+	 
+	 <h3>Stockholm</h3>
+	 <a href="rr.html">
+	
+	 <img class="img-responsive" id="open" src="img/sun.png" alt="Birdys Russian Roulette" width="384" height="384" 
+	 onclick="window.open('rr.html', 'newwindow', 'width=400', height='400'); return false;"></a>
+	  <h3 id="sthlm"></h3>
+	 </figure>
+
+     <figure class="col-xs-6">
+ <h3>Göteborg</h3>
+	 <img class="img-responsive" src="img/sun.png" alt="Birdy Cola" width="384" height="384">
+	  <h3>Stockholm</h3>
+    </figure>
+	
+	
+	<figure class="col-xs-6">
+	 <h3>Malmö</h3>
+	<img class="img-responsive" src="img/sun.png" alt="Sharky" width="384" height="384">
+	 <h3>Stockholm</h3>
+	</figure>
+	<figure class="col-xs-6">
+	
+ <h3>Kiruna</h3>
+	<img class="img-responsive" src="img/sun.png" alt="Castle" width="384" height="384">
+	 <h3>Stockholm</h3>
+ </figure>
+ </div>
+ </div>
+</section>
 	
       
     </div>
