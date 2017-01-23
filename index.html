@@ -19,50 +19,48 @@
 	//var vart = "Sana,YE";
 		  
 	$(document).ready(function() {
-		$("button").click(function() {
+		//$("button").click(function() {
 		
-
-		
-		
+	//hämta position
 	getLocation();
 		
-		function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-function showPosition(position) {
-//https://api.aerisapi.com/observations/59.3133135, 18.0914279?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM
-	
-	var la_ =  position.coords.latitude;
-	var lo_= position.coords.longitude;
-	
-	//	 la_ =  59.3133135;
-	//lo_= 18.0914279;
-	 //console.log(la_+" "+lo_);
-	loadWeatherData(la_, lo_);
-	
-}
 	 
-		});
-		function loadWeatherData(lat, lon) {
- $.ajax({
-        url: "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
-         //url: "https://api.aerisapi.com/observations/"+vart+"%20CA?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
-		 dataType: "jsonp",
-         success: function(json) {
-            if (json.success == true) {
-               var ob = json.response.ob;
-			 
-			  var vader = ob.weather.toLowerCase();
-			   getAuthor(vader);
+	//	}); /************click******************/
 		
-			   
-			   
-               $('#hej').html(vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
+
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			} 
+			else 
+				x.innerHTML = "Geolocation is not supported by this browser.";
+		};
+	
+		//sätt in anv position i variabler som ska anv för att ta fram vädret
+		function showPosition(position) {
+			//https://api.aerisapi.com/observations/59.3133135, 18.0914279?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM
+			var la_ =  position.coords.latitude;
+			var lo_= position.coords.longitude;
+			//	 la_ =  59.3133135;
+			//lo_= 18.0914279;
+			//console.log(la_+" "+lo_);
+			loadWeatherData(la_, lo_);
+		};
+		
+		//hämta väderdata
+		function loadWeatherData(lat, lon) {
+			$.ajax({
+			url: "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
+         //url: "https://api.aerisapi.com/observations/"+vart+"%20CA?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
+			dataType: "jsonp",
+			success: function(json) {
+		 
+				if (json.success == true) {
+					var ob = json.response.ob;
+					//sätt resultat till varibale som anropar författar metod
+					var vader = ob.weather.toLowerCase();
+					getAuthor(vader);
+					$('#hej').html(vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
             }
             else {
                alert('An error occurred: ' + json.error.description);
@@ -70,24 +68,112 @@ function showPosition(position) {
          }
       });
 	  };
+	  
+	  //beroene på väder kommer olika författare och bok väljas
 	  function getAuthor(vader){
-	
-	  			   if (vader.includes("clear" || "sunny" || "fair"))
-			   auth = "August+Strindberg";
-			   else if (vader.includes("mostly Clear" || "mostly sunnny"))
+	   var rand;
+	   var tmp;
+			if (vader.includes("clear" || "sunny" || "fair"))
+			{
+				auth = "August+Strindberg";
+				 $("#my_image").attr("src","img/sol.png");
+				}
+			else if (vader.includes("mostly Clear" || "mostly sunnny"))
+			{
 			   auth = "Karin+Boye";
-			   else if (vader.includes("mostly cloudy"))
+			   $("#my_image").attr("src","img/halv_sol.png");
+			   }
+			else if (vader.includes("mostly cloudy"))
+			{
 			    auth = "Stig+Dagerman";
-				else 
+				$("#my_image").attr("src","img/halv_moln.png");
+				}
+			else if (vader.includes("cloudy"))
+			{
+			    auth = "Bodil+Malmsten";
+				$("#my_image").attr("src","img/moln.png");
+				}
+			else 
+			{
 				auth = "Kerstin+Ekman";
-				 var f = "https://libris.kb.se/xsearch?query=Stig+Dagerman&n=10&format=json";
-				  var f = "https://libris.kb.se/xsearch?query="+auth+"&n=10&format=json";
+				 $("#my_image").attr("src","img/dark_moln.png");
+				}
+				
+			//var f = "https://libris.kb.se/xsearch?query=Bodil+Malmsten&n=5&format=json";
+				 
+			//sök efter förfatare på kb
+			//var f = "https://libris.kb.se/xsearch?query="+auth+"&n=10&format=json";
+			var f = "https://libris.kb.se/xsearch?query="+auth+"&n=5&format=json";
 			$.getJSON(f, 
 				function(data) {
+						
+					var arr;
+		//var test = data;
+			//	var result = [];
+
+//for(var i in data)
+  //  result.push([i, data[i]])		
+			//console.log("Resuklt "+result.from);
+			//var obj = JSON.parse(data);
+			
+				//		var arr = result.filter(function(el) {
+					//return el.identifier === "E-book";
+				//});
+
+				//console.log("borta" + JSON.stringify(arr, null, ' '));
+				/*
+				var ett = data.xsearch.list[0].title.toString();
+				var tva = data.xsearch.list[1].title.toString();
+				var tre = data.xsearch.list[2].title.toString();
+				var fyra = data.xsearch.list[3].title.toString();
+				var fem = data.xsearch.list[4].title.toString();
+				arr = [ett, tva, tre, fyra, fem];
+				var qw= "Elektronisk";
+				
+				//if (ett.length)
+				if(ett.includes("Elektronisk"))
+					console.log("hej"+ett);
+				*/
 		
+				rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
+			
+							//console.log(JSON.stringify(test));
+							
 					//$("#hej").append(data.xsearch.from);
 					
-				//	$.each(data.xsearch.list, function(i, obj) {
+			//	$.each(data.xsearch.list, function(i, obj) {
+					//console.log("i "+i);
+					//var arr = JSON.stringify(data.xsearch.list);
+			//console.log("test "+data.xsearch.list[i].title);
+			 /* 	for(var i in data.xsearch.list)
+						{
+							//arr.push(obj.title[i]);
+							//post += "<li>" + obj.tags[i] + "</li>";
+							arr += data.xsearch.list.title[i];
+						}*/
+			  
+			  //arr.push(data.xsearch.list);
+			// arr+=obj.title[i];
+				//rand=i;
+				//console.log(arr);
+				//console.log(arr.length);
+		
+			//tmp = obj.title.split(",");
+				//console.log("hej"+rand);
+				//});
+					//console.log("Ett "+arr);
+			// rand = tmp[Math.floor(Math.random() * rand)];
+			
+				//console.log("st "+data.xsearch.list.length);
+					
+					
+				/*
+				if (rand instanceof Array) {
+  alert('value is Array!');
+} else {
+  alert('Not an array');
+}
+			*/	
 						/*var post = "<article>";
 						post += "<h1>" + obj.title + "</h1>";
 						post += "<p>" + obj.creator + "</p>";
@@ -98,13 +184,15 @@ function showPosition(position) {
 						//}
 						post += "</ul>";
 						post += "</article>";*/
-						$("#blogposts").append(data.xsearch.list[0].title + " Av "+auth.replace("+", " "));
 						
-					//});
+						//appenda första boken
+			
+						
 					
+								$("#blogposts").append(data.xsearch.list[rand].title + " Av "+auth.replace("+", " "));
 					
 			});
-			}
+			};
 	});
 	
 
@@ -115,10 +203,12 @@ function showPosition(position) {
 <button type="button" class="btn btn-primary btn-lg">Test</button>
 	<h3>Today when the current weather is</h3>
 		<div id="hej"></div>
+		<img id="my_image" src=""/>
 		<h3>Maybe this book could be nice to read:</h3>
 		<div id="blogposts"></div>
 			<div id="theDiv"></div>
-</div>
+			
+
 
 <!-- <a href="svdTest.html">Nobelpris</a> -->
 </body>
