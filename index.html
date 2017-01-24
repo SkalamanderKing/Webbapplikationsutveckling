@@ -137,6 +137,28 @@
 						$('#sthlm').append('Temperature in ' + stad + " " + obe.tempC + '°' + ' ');
 					//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
     });
+	
+			var sm = "https://api.aerisapi.com/sunmoon/" + stad + "," +iso+ "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+						
+//var s ="https://api.aerisapi.com/observations/stockholm,se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+						$.getJSON(sm).then(function(data) {
+				//var ts = data.response[0].dateTimeISO;
+				var solupp = data.response[0].sun.riseISO;
+				var solner = data.response[0].sun.setISO;
+				//var uu=ts.
+						console.log(solupp+ " "+solner);
+						
+						//data.xsearch.list[rand].title
+       		//var vad = obe.weather.toLowerCase();
+			//console.log("vader "+vader);
+			
+					//getAuthor(vader);
+						//$('#sthlm').append('Temperature in ' + stad + " " + obe.tempC + '°' + ' ');
+					//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
+    });
+	
+	
+	
 							//getSthlmVader(JSON.parse(stad));
 							//getSthlmVader(stad+","+iso);
 						//console.log(ob.weather);
