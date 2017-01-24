@@ -17,12 +17,38 @@
   <script type="text/javascript">
     var auth = "";
 	var vart = "Stockholm,SE";
+	var stad="";
 		  
 	$(document).ready(function() {
+	//getTown();
+	getStad();
+	//getSthlmVader(vart);
+
+/*
+	function getTown(){
+		var sweden ="https://api.aerisapi.com/countries/se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+		$.getJSON(sweden).then(function(data) {
+				stad = data.response.profile.capital;
+					console.log("stad "+stad);
+				//getSthlm(stad);
+       		//var sthlm_v = obe.weather.toLowerCase();
+			//console.log("vader "+vader);
+					//getAuthor(vader);
+					
+					getSthlmVader(JSON.parse(stad));
+					//$('#sthlm').append(sthlm_v + ' with a temperature of ' + obe.tempC + '°' + ' ');
+				//$('#sthlm').append('Temperature ' + obe.tempC + '°' + ' ');
+    })
+    .fail(function() {
+        alert('Error: ' + json.error.description);
+    });
+	}
+
 	
-	
-	
-	var sthlm ="https://api.aerisapi.com/observations/"+vart+"%20CA?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+	//console.log("stad "+stad);
+	function getSthlmVader(stad){
+	var s=stad;
+	var sthlm ="https://api.aerisapi.com/observations/"+s +"?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
 		$.getJSON(sthlm).then(function(data) {
 				var obe = data.response.ob;
 						console.log("sthlm"+obe.weather);
@@ -36,8 +62,10 @@
     .fail(function() {
         alert('Error: ' + json.error.description);
     });
-	
-	
+	};
+		*/	
+	/*******************/
+
 	
 	
 		$("button").click(function() {
@@ -48,7 +76,7 @@
 		
 		
 	 
-	}); /************click******************/
+}); /************click******************/
 		
 
 		function getLocation() {
@@ -69,39 +97,15 @@
 			//console.log(la_+" "+lo_);
 			loadWeatherData(la_, lo_);
 		};
-		/*
-		//hämta väderdata
-		function loadWeatherData(lat, lon) {
-			$.ajax({
-			url: "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
-         //url: "https://api.aerisapi.com/observations/"+vart+"%20CA?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM",
-			dataType: "jsonp",
-			success: function(json) {
-		 
-				if (json.success == true) {
-					var ob = json.response.ob;
-					//sätt resultat till varibale som anropar författar metod
-					var vader = ob.weather.toLowerCase();
-							//console.log(JSON.stringify(vader));
-					//getAuthor(JSON.stringify(vader));
-					getAuthor(vader);
-					$('#foreCast').html('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
-            }
-            else {
-               alert('An error occurred: ' + json.error.description);
-            }
-         }
-      });
-	  };
-	  */
+	
 	  
 	  function loadWeatherData(lat, lon){
 	  var weathers = "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
 		$.getJSON(weathers).then(function(data) {
 				var ob = data.response.ob;
-						console.log(ob.weather);
+						//console.log(ob.weather);
        		var vader = ob.weather.toLowerCase();
-			console.log("vader "+vader);
+			//console.log("vader "+vader);
 					getAuthor(vader);
 					$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
     })
@@ -110,6 +114,68 @@
     });
 
 	  	};
+		
+						  function getStad(){
+			  //var vart = "Stockholm,SE";
+	var sweden ="https://api.aerisapi.com/countries/se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+		$.getJSON(sweden).then(function(data) {
+				var ob = data.response.ob;
+					var stad = data.response.profile.capital.toLowerCase();
+					var iso = data.response.place.iso.toLowerCase();
+					console.log("stad "+ typeof stad +" iso "+ typeof iso);
+					
+		var s = "https://api.aerisapi.com/observations/" + stad + "," +iso+ "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+						
+//var s ="https://api.aerisapi.com/observations/stockholm,se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+						$.getJSON(s).then(function(data) {
+				var obe = data.response.ob;
+						//console.log(ob.weather);
+       		var vad = obe.weather.toLowerCase();
+			//console.log("vader "+vader);
+			
+					//getAuthor(vader);
+						$('#sthlm').append('Temperature in ' + stad + " " + obe.tempC + '°' + ' ');
+					//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
+    });
+							//getSthlmVader(JSON.parse(stad));
+							//getSthlmVader(stad+","+iso);
+						//console.log(ob.weather);
+       		//var vad = ob.weather.toLowerCase();
+			//console.log("vader "+vader);
+			
+					//getAuthor(vader);
+						//$('#sthlm').append('Temperature ' + ob.tempC + '°' + ' ');
+					//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
+    })
+    .fail(function() {
+        alert('Error: ' + json.error.description);
+    });
+
+	  	};
+		
+		
+			  function getSthlmVader(vart){
+			  //var vart = "Stockholm,SE";
+	  var s = "https://api.aerisapi.com/observations/" + vart + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+		$.getJSON(s).then(function(data) {
+				var ob = data.response.ob;
+						//console.log(ob.weather);
+       		var vad = ob.weather.toLowerCase();
+			//console.log("vader "+vader);
+			
+					//getAuthor(vader);
+						$('#sthlm').append('Temperature ' + ob.tempC + '°' + ' ');
+					//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
+    })
+    .fail(function() {
+        alert('Error: ' + json.error.description);
+    });
+
+	  	};
+		
+
+		
+		
 		
 	  //beroene på väder kommer olika författare och bok väljas
 	  function getAuthor(vader){
@@ -163,97 +229,7 @@
 						if(rand<=-1)rand=0;
 							console.log("rand" +rand);
 							$("#bookAndAuthor").append("Maybe this book could be nice to read: " + data.xsearch.list[rand].title + " By "+auth.replace("+", " "));
-					//var arr;
-		//var test = data;
-			//	var result = [];
-
-//for(var i in data)
-  //  result.push([i, data[i]])		
-			//console.log("Resuklt "+result.from);
-			//var obj = JSON.parse(data);
-			
-				//		var arr = result.filter(function(el) {
-					//return el.identifier === "E-book";
-				//});
-
-				//console.log("borta" + JSON.stringify(arr, null, ' '));
-				/*
-				var ett = data.xsearch.list[0].title.toString();
-				var tva = data.xsearch.list[1].title.toString();
-				var tre = data.xsearch.list[2].title.toString();
-				var fyra = data.xsearch.list[3].title.toString();
-				var fem = data.xsearch.list[4].title.toString();
-				arr = [ett, tva, tre, fyra, fem];
-				var qw= "Elektronisk";
-				
-				//if (ett.length)
-				if(ett.includes("Elektronisk"))
-					console.log("hej"+ett);
-				*/
-				/*
-				var s = "foo",
-    su= "oo";
-	if(s.includes(su))
-		console.log("hej "+su);
-		else 
-			console.log("hej");
-		*/
-				
-			
-							//console.log(JSON.stringify(test));
-							
-					//$("#hej").append(data.xsearch.from);
-					
-			//	$.each(data.xsearch.list, function(i, obj) {
-					//console.log("i "+i);
-					//var arr = JSON.stringify(data.xsearch.list);
-			//console.log("test "+data.xsearch.list[i].title);
-			 /* 	for(var i in data.xsearch.list)
-						{
-							//arr.push(obj.title[i]);
-							//post += "<li>" + obj.tags[i] + "</li>";
-							arr += data.xsearch.list.title[i];
-						}*/
-			  
-			  //arr.push(data.xsearch.list);
-			// arr+=obj.title[i];
-				//rand=i;
-				//console.log(arr);
-				//console.log(arr.length);
-		
-			//tmp = obj.title.split(",");
-				//console.log("hej"+rand);
-				//});
-					//console.log("Ett "+arr);
-			// rand = tmp[Math.floor(Math.random() * rand)];
-			
-				//console.log("st "+data.xsearch.list.length);
-					
-					
-				/*
-				if (rand instanceof Array) {
-  alert('value is Array!');
-} else {
-  alert('Not an array');
-}
-			*/	
-						/*var post = "<article>";
-						post += "<h1>" + obj.title + "</h1>";
-						post += "<p>" + obj.creator + "</p>";
-						post += "<ul>";
-						//for(var i in obj.tags)
-						//{
-							//post += "<li>" + obj.tags[i] + "</li>";
-						//}
-						post += "</ul>";
-						post += "</article>";*/
-						
-						//appenda första boken
-			
-						
-					
-								
-					
+	
 			});
 			};
 		
