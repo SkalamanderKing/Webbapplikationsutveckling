@@ -2,6 +2,7 @@
 
 
 /*Hover effect on images, uses css and changes opacity*/
+/*
 $(document).ready(function(){
 
   $('.img-responsive').hover(
@@ -15,6 +16,5 @@ $(document).ready(function(){
   );
 
 });
-
-
+*/
 
