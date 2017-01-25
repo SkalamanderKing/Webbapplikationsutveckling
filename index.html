@@ -16,223 +16,67 @@
   <script src="js/script.js"></script>
   
   <script type="text/javascript">
-    var auth = "";
-	var vart = "Stockholm,SE";
-	var sweden= "se";
-	var gb= "gb";
-	var fr= "fr";
-	var it = "it";
-	
-	$(document).ready(function() {
-	
-	getCapital(sweden);
-	getCapital(gb);
-	getCapital(fr);
-	getCapital(it);
-	
-
-	
-	/************click******************/
-	$("button").click(function() {
-		
-	//hämta position
-	getLocation();
-	
-	}); 
-		
-		function getLocation() {
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(showPosition);
-			} 
-			else 
-				x.innerHTML = "Geolocation is not supported by this browser.";
-		};
-	
-		//sätt in anv position i variabler som ska anv för att ta fram vädret
-		function showPosition(position) {
-			var la_ =  position.coords.latitude;
-			var lo_= position.coords.longitude;
-			loadWeatherData(la_, lo_);
-		};
-	
-	 function loadWeatherData(lat, lon){
-	  var weathers = "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-		$.getJSON(weathers).then(function(data) {
-				var ob = data.response.ob;
-				var vader = ob.weather.toLowerCase();
-			//console.log("vader "+vader);
-				getAuthor(vader);
-				$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
-				})
-    .fail(function() {
-        alert('Error: ' + json.error.description);
-    });
-};
-
-		function getCapital(state){
-			var obe;
-			var s1 ="https://api.aerisapi.com/countries/"+state+"?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-			$.getJSON(s1).then(function(data) {
-			var ob = data.response.ob;
-			var stad = data.response.profile.capital.toLowerCase();
-			var iso = data.response.place.iso.toLowerCase();
-			//console.log("stad "+ typeof stad +" iso "+ typeof iso);
-			var s = "https://api.aerisapi.com/observations/" + stad + "," +iso+ "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-			//var s ="https://api.aerisapi.com/observations/stockholm,se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-						
-						$.getJSON(s).then(function(data) {
-							obe = data.response.ob;
-							var vad = obe.weather.toLowerCase();
-							//console.log("vader "+vader);
-						//$('#sthlm').append('Temperature in ' + stad + " " + obe.tempC + '°' + ' ');
-						//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
-						});
-	
-						var sm = "https://api.aerisapi.com/sunmoon/" + stad + "," +iso+ "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-						//var s ="https://api.aerisapi.com/observations/stockholm,se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-					$.getJSON(sm).then(function(data) {
-								//var ts = data.response[0].dateTimeISO;
-							var solupp = data.response[0].sun.riseISO;
-							var solner = data.response[0].sun.setISO;
-							console.log(solupp+ " "+solner);
-							//"2017-01-24T08:13:15+01:00",
-							var ris = solupp.slice(11, 16);
-							var set = solner.slice(11, 16);
-						
-							if(state===sweden)
-							$('#swe').append('Temperature in ' + stad + " " + obe.tempC + '°' + ' <br> Sun up ' + ris + '<br>' + ' Sun set '+set);
-							
-							else if (state===gb)
-							$('#gb').append('Temperature in ' + stad + " " + obe.tempC + '°' + ' <br> Sun up ' + ris + '<br>' + ' Sun set '+set);
-						
-							else if (state===fr)
-							$('#fr').append('Temperature in ' + stad + " " + obe.tempC + '°' + ' <br> Sun up ' + ris + '<br>' + ' Sun set '+set);
-							
-							else if (state===it)
-							$('#it').append('Temperature in ' + stad + " " + obe.tempC + '°' + ' <br> Sun up ' + ris + '<br>' + ' Sun set '+set);
-						//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
-						
-						});
-						})
-						.fail(function() {
-						alert('Error: ' + json.error.description);
-						});
-						};
-
-						
-						
-						
-				//beroene på väder kommer olika författare och bok väljas
-				function getAuthor(vader){
-				//console.log(vader.includes("mostly" && "sunny"));
-				var rand;
-				var tmp;
-						if (vader.includes("sunny" || "fair"))
-						{
-							auth = "August+Strindberg";
-							$("#my_image").attr("src","img/sun.png");
-						}
-						else if (vader.includes(("mostly" && "sunny") || ("mostly" && "clear"))) //("mostly clear" || "mostly sunny"))
-						{
-							auth = "Karin+Boye";
-							$("#my_image").attr("src","img/p_sun.png");
-						}
-						else if (vader.includes("mostly" && "cloudy"))
-						{
-							auth = "Stig+Dagerman";
-							$("#my_image").attr("src","img/p_cloud.png");
-						}
-						else if (vader.includes("cloudy"))
-						{
-							auth = "Bodil+Malmsten";
-							$("#my_image").attr("src","img/cloudy.png");
-						}
-						else if (vader.includes("clear"))
-						{
-							auth = "P.C.+Jersild";
-							$("#my_image").attr("src","img/clear.png");
-						}
-						else 
-						{
-							auth = "Kerstin+Ekman";
-							$("#my_image").attr("src","img/d_cloud.png");
-						}
-				
-			//var f = "https://libris.kb.se/xsearch?query=Bodil+Malmsten&n=5&format=json";
-				 
-					//sök efter förfatare på kb
-					var f = "https://libris.kb.se/xsearch?query="+auth+"&n=5&format=json";
-					$.getJSON(f, 
-					function(data) {
-					//console.log(data.xsearch.list.length);
-					rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
-					if(rand<=-1)rand=0;
-					//console.log("rand" +rand);
-					$("#bookAndAuthor").append("Maybe this book could be nice to read: " + data.xsearch.list[rand].title + " By "+auth.replace("+", " "));
-					});
-			};
-		
-	});
-
+  
 	</script>
 </head>
 <body>
 
 <div class="container">
-  <h2>Weather and Books</h2>
-  <p>There is no bad weather, only bad books</p>
+  <h1>Weather and Books</h2>
+  <p>"There is no bad weather, only bad books"</p>
 
+ 
 
-			  <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-    <li><a data-toggle="tab" href="#menu1">Local</a></li>
-    <li><a data-toggle="tab" href="#menu2">Links</a></li>
-    <li><a data-toggle="tab" href="#menu3">About</a></li>
+	<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home"><h4>Home </h4></a></li>
+    <li><a data-toggle="tab" href="#menu1"> <h4>Local</h4></a></li>
+    <li><a data-toggle="tab" href="#menu2"> <h4>Links</h4></a></li>
+    <li><a data-toggle="tab" href="#menu3"> <h4>About</h4></a></li>
   </ul>
 
+	
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
-	
-      <section ">
+
+      <section >
 <div class="container">
 <div class="row text-center">
-     <h2>Select a city to learn more about their libraries!</h2>
+     <!-- <h2>Select a city to learn more about their libraries!</h2> -->
 	 
 	
 	 <figure class="col-xs-6">
 	 
 	 
 	 <h3>Stockholm</h3>
-	 <a href="rr.html">
+
 	
-	
-	 <img class="img-responsive" id="open" src="img/sun.png" alt="Stockholm" width="384" height="384" 
-	 onclick="window.open('sthlm.html', 'newwindow', 'width=400', height='400'); return false;"></a>
+	 <h3 id="swe"></h3> 
+	 <img class="img-responsive" id="open" src="img/aug.png" alt="Stockholm" width="384" height="384">
 	 <!-- <textarea id="myTextarea" maxlength="30">342 Alvin Road Ducksburg</textarea> -->
-	  <h3 id="swe"></h3> 
+	 
 	 </figure>
 
      <figure class="col-xs-6">
  <h3>London</h3>
-	 <img class="img-responsive" id="open2" src="img/sun.png" alt="London" width="384" height="384" 
-	 onclick="window.open('rr.html', 'newwindow', 'width=400', height='400'); return false;"></a>
-	<h3 id="gb"></h3>
+ <h3 id="gb"></h3>
+	 <img class="img-responsive" id="open2" src="img/mary.png" alt="London" width="384" height="384">
+	
     </figure>
 	
 	
 	<figure class="col-xs-6">
 	 <h3>Paris</h3>
- <img class="img-responsive" id="open3" src="img/sun.png" alt="Paris" width="384" height="384" 
-	 onclick="window.open('rr.html', 'newwindow', 'width=400', height='400'); return false;"></a>
-	 <h3 id="fr"></h3>
+	  <h3 id="fr"></h3>
+ <img class="img-responsive" id="open3" src="img/duma.png" alt="Paris" width="384" height="384" >
+	
 	</figure>
 	
 	
 	<figure class="col-xs-6">
  <h3>Rome</h3>
-	 <img class="img-responsive" id="open2" src="img/sun.png" alt="Rome" width="384" height="384" 
-	 onclick="window.open('rr.html', 'newwindow', 'width=400', height='400'); return false;"></a>
-	 <h3 id="it"></h3>
+  <h3 id="it"></h3>
+	 <img class="img-responsive" id="open2" src="img/mac.png" alt="Rome" width="384" height="384">
+	
  </figure>
  </div>
  </div>
@@ -254,9 +98,9 @@
 
       <h3>Game</h3>
 
-	  
+	
 
-      <p>Test</p> <a href="test.html">testa</a> 
+   
     </div>
     <div id="menu3" class="tab-pane fade">
       <h3>Links</h3>

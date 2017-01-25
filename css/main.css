@@ -15,8 +15,26 @@ h3 {
   text-align: left;
 }
 
+	h2 {
+		font-size: 25px;
+	}
 
+		h4 {
+		//font-size: 11px;
+		font-weight: bold;
+	}
+	
+@font-face {
+    font-family: myFirstFont;
+    src: url(meteocons-webfont.woff);
+}
 
+.weatherFont {
+    font-family: myFirstFont;
+}
+	
+	
+	
    @media only screen and (max-width: 400px) {
 
 		body {
@@ -24,9 +42,46 @@ h3 {
 		font-size: 12px;
 		font-weight: 200;
 	}
+	
+	h3 {
+		font-size: 12px;
+	}
+	
+		h2 {
+		font-size: 12px;
+	}
+	
+		h4 {
+		font-size: 11px;
+		font-weight: bold;
+	}
+	
+/* 	.test {
+		display : none;
+	}  */
+
+
 .img-responsive {
 	padding:0px;
     margin-top:0px;
 }
+
+}
+
+   @media only screen and (max-width: 600px) {
+
+		body {
+		
+		font-size: 18px;
+		font-weight: 200;
+	}
+		h3 {
+		font-size: 18px;
+	}
+	
+		h2 {
+		font-size: 18px;
+	}
+
 
 }
