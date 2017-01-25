@@ -31,9 +31,36 @@ h3 {
 
 .weatherFont {
     font-family: myFirstFont;
+	font-size: 30px;
 }
-	
-	
+
+	input[type=text] {
+    width: 80%;
+    box-sizing: border-box;
+    border: 1px solid;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+}
+	footer {
+		
+	height: 100px;
+	color:black !important;
+  font-size: 15px;
+  text-align: center;
+      padding-top: 400px;
+	  
+	  clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: 3em;
+}
+
+
 	
    @media only screen and (max-width: 400px) {
 
@@ -56,15 +83,11 @@ h3 {
 		font-weight: bold;
 	}
 	
-/* 	.test {
-		display : none;
-	}  */
-
-
-.img-responsive {
-	padding:0px;
-    margin-top:0px;
+	.weatherFont {
+    font-family: myFirstFont;
+	font-size: 12px;
 }
+	
 
 }
 
@@ -82,6 +105,32 @@ h3 {
 		h2 {
 		font-size: 18px;
 	}
+		.weatherFont {
+		font-family: myFirstFont;
+		font-size: 20px;
+}
+
+
+}
+
+  @media only screen and (max-width: 700px) {
+
+		body {
+		
+		font-size: 20px;
+		font-weight: 220;
+	}
+		h3 {
+		font-size: 20px;
+	}
+	
+		h2 {
+		font-size: 20px;
+	}
+		.weatherFont {
+		font-family: myFirstFont;
+		font-size: 22px;
+}
 
 
 }
