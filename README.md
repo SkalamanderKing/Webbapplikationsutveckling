@@ -3,7 +3,7 @@ YH-programmet JavaScriptutvecklare Frontend, Lernia Utbildning AB.
 
 #Innehåll
 
-**Sida**
+**Sida: **
 https://skalamanderking.github.io/
 
 **Språk/gränssnitt**
@@ -39,7 +39,7 @@ API
  Efter många våndor hittade jag ngr API:er som jag beslutade mig för att använda. Iledde med mobile first men senareblev det mer parallet. Har fått lära mig mycket om Jquery som jag inte kunde mycket om.
 
 :angry:
-Sura webbläsare 
+Sura webbläsare gjorde att jag fastnade mycket i oväsentligheter. Tyvärr finns en del svårtolkade buggar kvar som verkar ha med metoden includes att göra, eller annat. Kunde ha gjort mycket snyggare layout men hann ej.
 
 :sunglasses:
 Lärt mig mycket.
