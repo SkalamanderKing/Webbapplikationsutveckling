@@ -1,283 +1,285 @@
 ﻿/*Fredrick Östlund 2016*/
 
-
-/*Hover effect on images, uses css and changes opacity*/
-/*
-$(document).ready(function(){
-
-  $('.img-responsive').hover(
-    function(){
-     $(this).addClass('active');
-	 
-    },
-    function(){
-    $(this).removeClass('active');
-    }
-  );
-
-});
-*/
-  var auth = "";
-	var vart = "Stockholm,SE";
+	//Author variable
+	var auth = "";
+	
+	//Variable holds country codes: used to fetch info from Aeris Weather api
 	var sweden= "se";
 	var gb= "gb";
 	var fr= "fr";
 	var it = "it";
 	
-
-			var sthlm_vader;
-			var london_vader;
-			var paris_vader;
-			var rome_vader;
-			
-			var solupp;
-			var solner;
-			
+	//Weather and date object holds here
+	var sthlm_vader;
+	var london_vader;
+	var paris_vader;
+	var rome_vader;
+	
+	//sunset and sunrise variables
+	var solupp;
+	var solner;
+	
+	//Clouds codes
+	var sky;
+	
+	/************On start******************/
 	$(document).ready(function() {
+		
+		//methods get the captials from json
+		getCapital(sweden);
+		getCapital(gb);
+		getCapital(fr);
+		getCapital(it);
 	
-	getCapital(sweden);
-	getCapital(gb);
-	getCapital(fr);
-	getCapital(it);
-	
-
-	/************click******************/
+	//Button on tab 2, get the location from geolactions api(and later a random book)
 	$("#butt1").click(function() {
+		getLocation();
+	});
+	
+	//On tab 3, search field
+	$("#butt2").click(function() {
 		
-	//hämta position
-	getLocation();
-	
-	searchAuthor();
-	
-	}); 
-		$("#butt2").click(function() {
-	  $('.input').val("");
-	
-	searchAuthor();
-	
-	}); 
+		//clean input if necessary
+		$('.input').val("");
 		
-		function getLocation() {
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(showPosition);
+		//fire the api search on KB
+		searchAuthor();
+	}); 
+	
+	/* HTML Geolocation API to get the geographical position of a user */
+	function getLocation() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition);
+			
+			//The random writer
+			searchAuthor();
 			} 
 			else 
-				x.innerHTML = "Geolocation is not supported by this browser.";
-		};
+				alert("Geolocation is not supported by this browser.");
+			};
 	
-		//sätt in anv position i variabler som ska anv för att ta fram vädret
+		/*Take out the longitude and latitude and get the weatherdata from Areis api*/
 		function showPosition(position) {
 			var la_ =  position.coords.latitude;
 			var lo_= position.coords.longitude;
 			loadWeatherData(la_, lo_);
 		};
-	
-	 function loadWeatherData(lat, lon){
-	  var weathers = "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-		$.getJSON(weathers).then(function(data) {
+		
+		/*The user coordinates is used to fetch json from Aeris and 
+		the Author function gets a random book from KB and all is set in a div*/
+		function loadWeatherData(lat, lon){
+			var weathers = "https://api.aerisapi.com/observations/" + lat + "," + lon + "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+			$.getJSON(weathers).then(function(data) {
+				
+				//ob is the observation info that also holds the weather
 				var ob = data.response.ob;
-				var vader = ob.weather.toLowerCase();
-			//console.log("vader "+vader);
+				
+				//Get the weather
+				ob = data.response.ob;
+				
+				vader = ob.cloudsCoded.toLowerCase();
+				
+				//Get a random writer depning in weather conditions
 				getAuthor(vader);
+				
+				//Set the answer
 				$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
 				})
-    .fail(function() {
-        alert('Error: ' + json.error.description);
-    });
-};
-
-	
-
+				//Error handling
+				.fail(function() {
+					alert('Error: ' + json.error.description);
+					});
+		};
+		
+		
+		
+		/*Takes a state and get the capital and country code*/
 		function getCapital(state){
 			
-		
-			var sky; 
+			//observation variable
 			var obe;
+			
+			//Use the contry parameter to get json from Aeris thet hold info about diffrents contries
 			var s1 ="https://api.aerisapi.com/countries/"+state+"?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+		
 			$.getJSON(s1).then(function(data) {
+	
+				//get the capital
+				var stad = data.response.profile.capital.toLowerCase();
+			
+				//get the country code (needed for weather call)
+				var iso = data.response.place.iso.toLowerCase();
 				
-			//get the object	
-			var ob = data.response.ob;
-			
-			//get the capital
-			var stad = data.response.profile.capital.toLowerCase();
-			
-			//get the country code (needed for weather call)
-			var iso = data.response.place.iso.toLowerCase();
-			
-			//console.log("stad "+ typeof stad +" iso "+ typeof iso);
-			
-			//the forcaste 
-			var s = "https://api.aerisapi.com/observations/" + stad + "," +iso+ "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-			//var s ="https://api.aerisapi.com/observations/stockholm,se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-						
-						$.getJSON(s).then(function(data) {
-							obe = data.response.ob;
-							sky = obe.cloudsCoded.toLowerCase();
-							//console.log("vader "+vader);
-						//$('#sthlm').append('Temperature in ' + stad + " " + obe.tempC + '°' + ' ');
-						//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
-						
-						
-						
-						//console.log("vader "+ obe.weather);
-
-						
-						
+				//The string that built and are to be sent to the aeris server
+				var s = "https://api.aerisapi.com/observations/" + stad + "," +iso+ "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+				//var s ="https://api.aerisapi.com/observations/stockholm,se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
+				
+				//Get the weather
+				$.getJSON(s).then(function(data) {
+					obe = data.response.ob;
+					sky = obe.cloudsCoded.toLowerCase();
 						});
-						//get the sun rise and set
+						
+						//get the sunrise and set
 						var sm = "https://api.aerisapi.com/sunmoon/" + stad + "," +iso+ "?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
 						//var s ="https://api.aerisapi.com/observations/stockholm,se?client_id=2DLZxkOpvYq3SA8X4Ny4s&client_secret=h3ado5fV7TbT7RTvDsEnrat6hHBmCHHhypZFUPvM";
-					$.getJSON(sm).then(function(data) {
-								//var ts = data.response[0].dateTimeISO;
+						
+						 $("#load, #load2, #load3, #load4").show();
+						$.getJSON(sm).then(function(data) {
+						$("#load, #load2, #load3, #load4").hide();
+							//sun's up and down times (an ISO datestamp )
 							solupp = data.response[0].sun.riseISO;
 							solner = data.response[0].sun.setISO;
 							
+							//If its sunset then this becomes true (the font symbols changes depning if it's night or day)
 							var natt = dateCheck(solner);
 							
-							//"2017-01-24T08:13:15+01:00",
+							//Take out better looking time
 							var ris = solupp.slice(11, 16);
 							var set = solner.slice(11, 16);
 							
+							//Get a html string depning on weather and time
 							sthlm_vader=weatherFontCheck(sky, natt);
 							london_vader=weatherFontCheck(sky, natt);
 							paris_vader=weatherFontCheck(sky, natt);
 							rome_vader=weatherFontCheck(sky, natt);
 							
-						//	$("#swe").css({fontSize: 20});
+							//	$("#swe").css({fontSize: 20});
 						
-							if(state===sweden)
+							//Set the temperature, a weather symbol and sunrise/sunset
+						 if(state===sweden){
 							$('#swe').append(' Temperature ' + obe.tempC + '° &nbsp; &nbsp; ' + sthlm_vader + '<p style="font-size: 0.7em;">Sunrise ' + ris + '&nbsp;  ' + ' Sunset '+set + '</p>');
-							
-							else if (state===gb)
+						 }
+						 else if (state===gb){
 							$('#gb').append('Temperature '  + obe.tempC + '° &nbsp; &nbsp; ' + london_vader + ' <p style="font-size: 0.7em;">Sunrise' + ris + '&nbsp;  ' + ' Sunset '+set + '</p>');
-						
-							else if (state===fr)
+				
+						 }
+							else if (state===fr){
 							$('#fr').append('Temperature '  + obe.tempC + '° &nbsp; &nbsp; ' +  paris_vader + ' <p style="font-size: 0.7em;">Sunrise ' + ris + '&nbsp;  ' + ' Sunset '+set+ '</p>');
-							
-							else if (state===it)
+						
+							}
+							else if (state===it){
 							$('#it').append('Temperature '  + obe.tempC + '° &nbsp; &nbsp; ' +  rome_vader +' <p style="font-size: 0.7em;">Sunrise ' + ris + '&nbsp;  ' + ' Sunset '+set+ '</p>');
-						//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
-						
-						});
-						})
-						.fail(function() {
-						alert('Error: ' + json.error.description);
-						});
-						};
-						
-//var solner = '2017-01-22T08:11:15+01:00';
-function dateCheck(solner) {
-	var d1 = new Date(solner);
-	var nu = new Date();
-	var diff = nu > d1;
-	console.log("test " + diff +" löpe " + nu );
-	return diff;
-
-}
-						//check the cloudynes and night-time
-						function weatherFontCheck(sky, natt){
-							
-							if (sky.includes("bk"))//Mostly Cloudy
-									if (natt)
-										return '<span class="weatherFont">I</span>';
-										else 
-								return '<span class="weatherFont">Y</span>';
-							
-							else if(sky.includes("cl"))//Clear
-								if (natt)
-										return '<span class="weatherFont">C</span>';
-									else 
-								return '<span class="weatherFont">B</span>';
-							
-							else if(sky.includes("fw"))//Fair/Mostly sunny
-								if (natt)
-										return '<span class="weatherFont">C</span>';
-									else	
-								return '<span class="weatherFont">B</span>';
-							
-							else if(sky.includes("sc"))//Partly cloudy
-								if (natt)
-										return '<span class="weatherFont">I</span>';
-									else
-								return '<span class="weatherFont">H</span>';
-							
-							else if(sky.includes("ov"))//Cloudy/Overcast
-								if (natt)
-										return '<span class="weatherFont">4</span>';
-									else
-								return '<span class="weatherFont">5</span>';
-							else 
-								return '<span class="weatherFont">Q</span>';
+							//$('#foreCast').append('Today when the current weather is '+ vader + ' with a temperature of ' + ob.tempC + '°' + ' ');
 					
+							}
+							});
+			})
+			.fail(function() {
+				alert('Error: ' + json.error.description);
+				});
+		};
 						
-							}	
+						/*Get the date now and compare with the time from the json and return if's daytime or not*/
+						function dateCheck(solner) {
+							var d1 = new Date(solner);
+							var nu = new Date();
+							var diff = nu > d1;
+							return diff;
+						}
+						
+			/* Compare the returning string from api, (cloudes and night-time) and return a html string */
+			function weatherFontCheck(sky, natt){
+				try {
+				if (sky.includes("bk"))//Mostly Cloudy
+					if (natt)
+						return '<span class="weatherFont">I</span>';
+				else 
+					return '<span class="weatherFont">Y</span>';
 							
+				else if(sky.includes("cl"))//Clear
+						if (natt)
+						return '<span class="weatherFont">C</span>';
+				else 
+						return '<span class="weatherFont">B</span>';
+					
+				else if(sky.includes("fw"))//Fair/Mostly sunny
+					if (natt)
+						return '<span class="weatherFont">C</span>';
+				else	
+						return '<span class="weatherFont">B</span>';
 							
-				//beroene på väder kommer olika författare och bok väljas
-				function getAuthor(vader){
+				else if(sky.includes("sc"))//Partly cloudy
+					if (natt)
+						return '<span class="weatherFont">I</span>';
+				else
+						return '<span class="weatherFont">H</span>';
+							
+				else if(sky.includes("ov"))//Cloudy/Overcast
+					if (natt)
+						return '<span class="weatherFont">4</span>';
+				else
+						return '<span class="weatherFont">5</span>';
+				else 
+					return '<span class="weatherFont">Q</span>';
+					}
+			catch(err) {
+			console.log("Error!");
+				}
+				/* finally {
+				return '<span class="weatherFont">)</span>';
+					} */
+			}	
 
-				var rand;
-				var tmp;
-						if (vader.includes("sunny" || "fair"))
+								
+				/*Compare the string from api(cloudes) and selcts a author and a image. 
+				The author is used to get json from KB, and a random takes out a "tip" of a book*/
+				function getAuthor(vader){
+					var rand;
+						//chcks if a weather string holds a comapareable string
+						if (vader.includes("bk"))
 						{
 							auth = "August+Strindberg";
 							$("#my_image").attr("src","img/aug.png");
 						}
-						else if (vader.includes(("mostly" && "sunny") || ("mostly" && "clear"))) //("mostly clear" || "mostly sunny"))
+						else if (vader.includes("cl")) //("mostly clear" || "mostly sunny"))
 						{
 							auth = "Karin+Boye";
 							$("#my_image").attr("src","img/boye.png");
 						}
-						else if (vader.includes("mostly" && "cloudy"))
+						else if (vader.includes("sc"))
 						{
 							auth = "Stig+Dagerman";
 							$("#my_image").attr("src","img/dag.png");
 						}
-						else if (vader.includes("cloudy"))
+						else if (vader.includes("ov"))
 						{
 							auth = "Bodil+Malmsten";
 							$("#my_image").attr("src","img/aug.png");
 						}
-						else if (vader.includes("clear"))
-						{
-							auth = "P.C.+Jersild";
-							$("#my_image").attr("src","img/aug.png");
-						}
+					
 						else 
 						{
 							auth = "Kerstin+Ekman";
 							$("#my_image").attr("src","img/aug.png");
 						}
 				
-			//var f = "https://libris.kb.se/xsearch?query=Bodil+Malmsten&n=5&format=json";
+					//var f = "https://libris.kb.se/xsearch?query=Bodil+Malmsten&n=5&format=json";
 				 
-					//sök efter förfatare på kb
+					//Search author on kb
 					var f = "https://libris.kb.se/xsearch?query="+auth+"&n=5&format=json";
 					$.getJSON(f, 
 					function(data) {
-					//console.log(data.xsearch.list.length);
-					rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
-					if(rand<=-1)rand=0;
-					//console.log("rand" +rand);
+						
+						//take out a random number from the list tha comes from the api
+						rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
+						if(rand<=-1)rand=0;
+				
+					//set a book tip 
 					$("#bookAndAuthor").append("Maybe this book could be nice to read: " + data.xsearch.list[rand].title + " By "+auth.replace("+", " "));
 					});
-			};
+				};
 			
-					//search author at KB
+				/* Seach function for the user on KB*/
 				function searchAuthor(){
-					 $("#input").val('');
+					$("#input").val('');
 					var t='';
 					var f='';
-					var auth= 'August+Strindberg';
-				 	t= $("input").val();
-				
+					t= $("input").val();
 					f = "https://libris.kb.se/xsearch?query="+t+"&n=5&format=json";
-										//rand = Math.floor((Math.random() * (data.xsearch.list.length)-1));
-					//if(rand<=-1)rand=0;
 					$.getJSON(f, 
-					function(data) {
-					$("#KBauthor").append(data.xsearch.list[0].title + "<br> by " + data.xsearch.list[0].creator);
+						function(data) {
+						$("#KBauthor").append(data.xsearch.list[0].title + "<br> by " + data.xsearch.list[0].creator);
 				
 				});
 			};

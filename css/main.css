@@ -1,6 +1,5 @@
 ﻿/*Fredrick Östlund 2016*/
 
-
 body {
 font-family: "Times New Roman", Times, serif;
 font-size: 20px;
@@ -14,16 +13,18 @@ h3 {
   font-size: 25px;
   text-align: left;
 }
-
+ #tj {
+		font-size: 20;
+		font-weight: bold;
+	}
 	h2 {
 		font-size: 25px;
 	}
-
 		h4 {
-		//font-size: 11px;
 		font-weight: bold;
 	}
 	
+/*imported font, used to show weather icons*/
 @font-face {
     font-family: myFirstFont;
     src: url(meteocons-webfont.woff);
@@ -33,8 +34,8 @@ h3 {
     font-family: myFirstFont;
 	font-size: 30px;
 }
-
-	input[type=text] {
+/*search field*/
+input[type=text] {
     width: 80%;
     box-sizing: border-box;
     border: 1px solid;
@@ -45,27 +46,23 @@ h3 {
     background-repeat: no-repeat;
     padding: 12px 20px 12px 40px;
 }
-	footer {
-		
+
+footer {
 	height: 100px;
 	color:black !important;
-  font-size: 15px;
-  text-align: center;
-      padding-top: 400px;
-	  
-	  clear: both;
+	font-size: 15px;
+	text-align: center;
+	padding-top: 400px;
+	clear: both;
     position: relative;
     z-index: 10;
     height: 3em;
     margin-top: 3em;
 }
 
-
-	
    @media only screen and (max-width: 400px) {
 
 		body {
-		
 		font-size: 12px;
 		font-weight: 200;
 	}
@@ -73,50 +70,39 @@ h3 {
 	h3 {
 		font-size: 12px;
 	}
-	
 		h2 {
 		font-size: 12px;
 	}
-	
 		h4 {
 		font-size: 11px;
 		font-weight: bold;
 	}
-	
 	.weatherFont {
     font-family: myFirstFont;
 	font-size: 12px;
-}
-	
-
+	}
 }
 
    @media only screen and (max-width: 600px) {
 
 		body {
-		
 		font-size: 18px;
 		font-weight: 200;
 	}
 		h3 {
 		font-size: 18px;
 	}
-	
 		h2 {
 		font-size: 18px;
 	}
 		.weatherFont {
 		font-family: myFirstFont;
 		font-size: 20px;
-}
-
-
+		}
 }
 
   @media only screen and (max-width: 700px) {
-
 		body {
-		
 		font-size: 20px;
 		font-weight: 220;
 	}
@@ -130,7 +116,5 @@ h3 {
 		.weatherFont {
 		font-family: myFirstFont;
 		font-size: 22px;
-}
-
-
+		}
 }
