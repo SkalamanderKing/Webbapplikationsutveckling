@@ -36,7 +36,18 @@
 		getLocation();
 	});
 	
-	//On tab 3, search field
+
+
+
+$('#txt').keypress(function (e) {                                       
+       if (e.which == 13) {
+            e.preventDefault();
+			searchAuthor();
+            //do something   
+       }
+})
+	
+	
 	$("#butt2").click(function() {
 		
 		//clean input if necessary
@@ -180,7 +191,7 @@
 						
 			/* Compare the returning string from api, (cloudes and night-time) and return a html string */
 			function weatherFontCheck(sky, natt){
-				try {
+				//try {
 				if (sky.includes("bk"))//Mostly Cloudy
 					if (natt)
 						return '<span class="weatherFont">I</span>';
@@ -212,13 +223,11 @@
 						return '<span class="weatherFont">5</span>';
 				else 
 					return '<span class="weatherFont">Q</span>';
-					}
-			catch(err) {
-			console.log("Error!");
-				}
-				/* finally {
-				return '<span class="weatherFont">)</span>';
-					} */
+					//}
+		//	catch(err) {
+		//	console.log("Error!");
+		//		}
+				
 			}	
 
 								
@@ -272,14 +281,15 @@
 			
 				/* Seach function for the user on KB*/
 				function searchAuthor(){
-					$("#input").val('');
+		
+				//	$("#input").val('');
 					var t='';
 					var f='';
 					t= $("input").val();
 					f = "https://libris.kb.se/xsearch?query="+t+"&n=5&format=json";
 					$.getJSON(f, 
 						function(data) {
-						$("#KBauthor").append(data.xsearch.list[0].title + "<br> by " + data.xsearch.list[0].creator);
+						$("#KBauthor").append(data.xsearch.list[0].title + "<br> by " + data.xsearch.list[0].creator + "<br>");
 				
 				});
 			};
