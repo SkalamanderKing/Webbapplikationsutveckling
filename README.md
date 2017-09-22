@@ -3,9 +3,6 @@ YH-programmet JavaScriptutvecklare Frontend, Lernia Utbildning AB.
 
 #Innehåll
 
-**Sida: **
-https://skalamanderking.github.io/
-
 **Språk/gränssnitt**
 * JavaScript
 * HTML5
